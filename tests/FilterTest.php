@@ -26,8 +26,11 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
 		$gauger = new StretchCalculator;
 
-		$gauger->gauge (function () {usleep (10);}, array (), '10');
-		$gauger->gauge (function () {usleep (1000);}, array (), '1000');
+		$gauger->stamp (0.001, '10');
+		$gauger->stamp (0.0019, '10');
+
+		$gauger->stamp (0.01, '1000');
+		$gauger->stamp (0.02, '1000');
 
 		$this->assertCount (1, $gauger->getMarks (array (), array (new Duration (0.001))), 'Only the second mark should be passed the filter');
 	}
