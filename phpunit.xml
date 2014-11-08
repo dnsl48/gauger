@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<phpunit bootstrap="tests/bootstrap.php">
+	<testsuites>
+		<testsuite name="generic">
+			<file>tests/GaugerTest.php</file>
+			<file>tests/FilterTest.php</file>
+			<file>tests/FormatterTest.php</file>
+		</testsuite>
+	</testsuites>
+</phpunit>
