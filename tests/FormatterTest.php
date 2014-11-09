@@ -2,8 +2,8 @@
 
 
 use Debuggy\Gauger;
-use Debuggy\Gauger\StretchAccumulator;
-use Debuggy\Gauger\StretchCalculator;
+use Debuggy\Gauger\StretchTimeAccumulator;
+use Debuggy\Gauger\StretchTimeCalculator;
 
 use Debuggy\Gauger\Mark;
 
@@ -16,13 +16,13 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 	public function testTxt () {
 		$formatter = new Txt (36);
 
-		$gauger1 = new StretchCalculator ('First');
+		$gauger1 = new StretchTimeCalculator ('First');
 
 		$gauger1->stamp (1, 'marker');
 		$gauger1->stamp (2, 'marker');
 
 
-		$gauger2 = new StretchCalculator ('Second');
+		$gauger2 = new StretchTimeCalculator ('Second');
 
 		$gauger2->stamp (0.1, 'marker');
 		$gauger2->stamp (0.2, 'marker');
@@ -41,15 +41,15 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 
 		$m = new Mark;
 		$m->marker = 'Marker';
-		$m->duration = '0.000100';
+		$m->gauge = '0.000100';
 
 		$this->assertEquals ('* Marker ................ 0.000100 *', $formatter->singleMark ($m));
 
 
-		$gauger = new StretchAccumulator ('Very very long long string string');
+		$gauger = new StretchTimeAccumulator ('Very very long long string string');
 		$gauger->stamp (1, 'marker');
 		$gauger->stamp (2, 'marker');
-		$formatter->setDurationHandler (function () {return '0.000001';});
+		$formatter->setGaugeHandler (function () {return '0.000001';});
 
 		$expectedResult =
 			'********** Very very long **********'.PHP_EOL.
@@ -64,10 +64,10 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals ($expectedResult, $formatter->gauger ($gauger));
 
 
-		$gauger = new StretchAccumulator ('_');
+		$gauger = new StretchTimeAccumulator ('_');
 		$gauger->stamp (1, 'long marker');
 		$gauger->stamp (2, 'long marker', array ('extra key' => 'long string'));
-		$formatter->setDurationHandler (null);
+		$formatter->setGaugeHandler (null);
 
 		$expectedResult =
 			'**************** _ *****************'.PHP_EOL.
@@ -89,13 +89,13 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 	public function testHtml () {
 		$formatter = new Html (true, 36);
 
-		$gauger1 = new StretchCalculator ('First');
+		$gauger1 = new StretchTimeCalculator ('First');
 
 		$gauger1->stamp (1, 'marker');
 		$gauger1->stamp (2, 'marker');
 
 
-		$gauger2 = new StretchCalculator ('Second');
+		$gauger2 = new StretchTimeCalculator ('Second');
 
 		$gauger2->stamp (0.1, 'marker');
 		$gauger2->stamp (0.2, 'marker');
@@ -114,7 +114,7 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals ($expectedResult, $formatter->gaugers (array ($gauger1, $gauger2)));
 
 
-		$gauger = new StretchCalculator ('First');
+		$gauger = new StretchTimeCalculator ('First');
 
 		$gauger->stamp (1, 'marker');
 		$gauger->stamp (2, 'marker');
@@ -151,13 +151,13 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 	public function testPhpArray () {
 		$formatter = new PhpArray;
 
-		$gauger1 = new StretchAccumulator ('First');
+		$gauger1 = new StretchTimeAccumulator ('First');
 
 		$gauger1->stamp (1, 'marker');
 		$gauger1->stamp (2, 'marker');
 
 
-		$gauger2 = new StretchAccumulator ('Second');
+		$gauger2 = new StretchTimeAccumulator ('Second');
 
 		$gauger2->stamp (0.1, 'marker');
 		$gauger2->stamp (0.2, 'marker', array ('one' => 1));
@@ -166,13 +166,13 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 			'First' => array (
 				0 => array (
 					'marker' => 'marker',
-					'duration' => 1,
+					'gauge' => 1,
 					'extra' => NULL,
 					'number' => 1
 				),
 				'marker' => array (
 					'marker' => 'marker',
-					'duration' => 1,
+					'gauge' => 1,
 					'extra' => NULL,
 					'count' => 1
 				)
@@ -180,13 +180,13 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 			'Second' => array (
 				0 => array (
 					'marker' => 'marker',
-					'duration' => 0.1,
+					'gauge' => 0.1,
 					'extra' => array ('former' => null, 'latter' => array ('one' => 1)),
 					'number' => 1
 				),
 				'marker' => array (
 					'marker' => 'marker',
-					'duration' => 0.1,
+					'gauge' => 0.1,
 					'extra' => null,
 					'count' => 1
 				)

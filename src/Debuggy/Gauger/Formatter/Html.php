@@ -12,13 +12,20 @@ use Debuggy\Gauger\Mark;
 
 
 /**
- * Implements logic of Info to Array transformation
+ * Transforms marks to HTML report.
+ * For report making it uses Txt formatter and then htmlspecialchars
+ * for escaping its result.
  */
 class Html extends Formatter {
 	/**
-	 * Whether do enclosing of the info into HTML context
+	 * Constructs Html formatter that incapsulates a Txt one.
+	 * If $enclose is true, it will make the full HTML page with <html><head> and <body> tags.
+	 * Otherwise it will only escape special chars.
 	 *
 	 * @param bool $enclose Enclose flag (true by default)
+	 * @param int $outputWidth Width for output in symbols
+	 * @param string $border Symbol that will be used as border
+	 * @param string $filler Symbol that will be used as filler
 	 */
 	public function __construct ($enclose = true, $outputWidth = 80, $border = '*', $filler = '.') {
 		$this->_encloseFlag = $enclose;

@@ -10,11 +10,12 @@ use Debuggy\Gauger\Mark\Summary as SummaryMark;
 
 
 /**
- * Filter for marks by their duration
+ * Implements filtering logic by ranges of gauges
  */
-class Duration implements Sequential, Summary {
+class Between implements Sequential, Summary {
 	/**
-	 * Setup minimum and maximum duration for a mark to pass the checking
+	 * Setup minimum and maximum points. The range between them
+	 * will be pass the filter.
 	 *
 	 * @param int $min Minimum value
 	 * @param int $max Maximum value
@@ -41,12 +42,14 @@ class Duration implements Sequential, Summary {
 
 
 	/**
-	 * {@inheritdoc}
+	 * Check that mark's gauge is greater than min and lesser than max
+	 *
+	 * @param Mark $mark Mark for checking
 	 */
 	public function checkMark (Mark $mark) {
 		return
-			(!isset ($this->_min) || $mark->duration >= $this->_min)
+			(!isset ($this->_min) || $mark->gauge >= $this->_min)
 		&&
-			(!isset ($this->_max) || $mark->duration <= $this->_max);
+			(!isset ($this->_max) || $mark->gauge <= $this->_max);
 	}
 }

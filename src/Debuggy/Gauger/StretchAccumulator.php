@@ -15,9 +15,9 @@ use Debuggy\Gauger\Mark\Summary as SummaryMark;
 
 /**
  * Gauges stretches between two points with the same markers.
- * All pointers are going to save until report.
+ * All marks are going to be kept until a report generation.
  */
-class StretchAccumulator extends Gauger {
+abstract class StretchAccumulator extends Gauger {
 	/** {@inheritdoc} */
 	public function mark ($marker, $details = array ()) {
 		$this->_makeMark ($marker, $details);
@@ -48,7 +48,7 @@ class StretchAccumulator extends Gauger {
 			if (!isset ($summary[$marker])) {
 				$summary[$marker] = new SummaryMark;
 				$summary[$marker]->marker = $marker;
-				$summary[$marker]->duration = 0;
+				$summary[$marker]->gauge = 0;
 				$summary[$marker]->count = 1;
 			} else {
 				++$summary[$marker]->count;
@@ -63,7 +63,7 @@ class StretchAccumulator extends Gauger {
 
 			$mark = new SequentialMark;
 			$mark->marker = $marker;
-			$mark->duration = $markerStamps[1] - $markerStamps[0];
+			$mark->gauge = $markerStamps[1] - $markerStamps[0];
 			$mark->number = floor (($markerOrderIdx + 1) / 2);
 
 			if ($tmpDetails[$marker] || $this->_marks_details[$markerOrderIdx])
@@ -73,7 +73,7 @@ class StretchAccumulator extends Gauger {
 
 			unset ($tmpDetails[$marker]);
 
-			$summary[$marker]->duration += $markerStamps[1] - $markerStamps[0];
+			$summary[$marker]->gauge += $markerStamps[1] - $markerStamps[0];
 		}
 
 		foreach ($summary as $marker => $mark) {
@@ -118,18 +118,17 @@ class StretchAccumulator extends Gauger {
 
 
 	/**
-	 * Makes mark's data and store that in internal arrays
+	 * Makes mark's data and keep it in the object
 	 *
-	 * @param string $marker Marker that denotes the stamp
-	 * @param array $details Note for that stamp (optional)
-	 * @param float $stamp Microtime stamp
+	 * @param string $marker Marker name
+	 * @param array $details Extra data for that marker (optional)
+	 * @param float $gauge Gauge to stamp
 	 *
 	 * @return void
 	 */
-	private function _makeMark ($marker, $details = array (), $stamp = null) {
-		// top stamp without method's overhead (should be second in the couple of stamps)
-		$_stamp = microtime (true);
-		$stamp = $stamp ? $stamp : $_stamp;
+	private function _makeMark ($marker, $details = array (), $gauge = null) {
+		// top stamp that does not have any method's overhead
+		$gauge = $gauge ? $gauge : $this->getGauge ($details);
 
 		if (!isset ($this->_marks_storage[$marker]))
 			$this->_marks_storage[$marker] = array (array ());
@@ -140,12 +139,12 @@ class StretchAccumulator extends Gauger {
 		$idx = count ($this->_marks_storage[$marker]) - 1;
 
 		if (count ($this->_marks_storage[$marker][$idx]) === 1) {
-			$this->_marks_storage[$marker][$idx][] = $stamp;
+			$this->_marks_storage[$marker][$idx][] = $gauge;
 
 			if ($filters = $this->getFilters ()) {
 				$mark = new SequentialMark;
 				$mark->marker = $marker;
-				$mark->duration = $stamp - $this->_marks_storage[$marker][$idx][0];
+				$mark->gauge = $gauge - $this->_marks_storage[$marker][$idx][0];
 				$mark->extra = $details ? $details : null;
 				$mark->number = $idx+1;
 
@@ -159,11 +158,11 @@ class StretchAccumulator extends Gauger {
 				}
 			}
 		} else
-			// if the stamp is the first in the couple, it should be without method's overhead
-			$this->_marks_storage[$marker][$idx+1][] = &$stamp;
+			// if the stamp is the first in the couple, it should not have include method's overhead
+			$this->_marks_storage[$marker][$idx+1][] = &$gauge;
 
-		// bottom stamp without method's overhead (should be first in the couple of stamps)
-		$stamp = $stamp ? $stamp : microtime (true);
+		// bottom stamp that does not have any method's overhead
+		$gauge = $gauge ? $gauge : $this->getGauge ($details);
 	}
 
 

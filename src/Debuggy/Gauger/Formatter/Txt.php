@@ -14,14 +14,15 @@ use Debuggy\Gauger\Mark\Summary as SummaryMark;
 
 
 /**
- * Implements logic of Info to Array transformation
+ * Transforms marks to plain text
  */
 class Txt extends Formatter {
 	/**
-	 * Setup the output's width in symbols.
-	 * The width can not be less than 16 symbols
+	 * The width of report can not be less than 16 symbols
 	 *
 	 * @param int $outputWidth Width for output in symbols
+	 * @param string $border Symbol that will be used as border
+	 * @param string $filler Symbol that will be used as filler
 	 */
 	public function __construct ($outputWidth = 80, $border = '*', $filler = '.') {
 		if ($outputWidth < 16)
@@ -83,7 +84,7 @@ class Txt extends Formatter {
 	public function singleMark (Mark $mark) {
 		$result = $this->_report (
 			$this->_space ($this->getMarkerName ($mark)),
-			$this->_space ($this->formatDuration ($mark->duration)),
+			$this->_space ($this->formatGauge ($mark->gauge)),
 			$this->_filler,
 			$this->_border,
 			$this->_outputWidth
@@ -97,9 +98,9 @@ class Txt extends Formatter {
 
 
 	/**
-	 * Builds marker name and returns it
+	 * Builds a marker name and returns it
 	 *
-	 * @param Mark $mark Mark whose name should be generated
+	 * @param Mark $mark Mark that name should be generated
 	 *
 	 * @return string
 	 */
@@ -114,7 +115,7 @@ class Txt extends Formatter {
 
 
 	/**
-	 * Split all marks into groups by their types
+	 * Splits all marks into groups by their types
 	 *
 	 * @param array $marks List of marks to split
 	 *
@@ -138,9 +139,9 @@ class Txt extends Formatter {
 
 
 	/**
-	 * Encircle value with spaces at both sides if the value isn't the space by itself
+	 * Encircle value with spaces at both sides if the value is not the space itself
 	 *
-	 * @param string $value Value to encircling
+	 * @param string $value Value to be encircled
 	 *
 	 * @return string
 	 */
@@ -159,7 +160,7 @@ class Txt extends Formatter {
 
 
 	/**
-	 * Build rows for Mark's extra info and returns them as array
+	 * Builds rows for Mark's extra info and returns them as array
 	 *
 	 * @param array $extra Extra info
 	 *
@@ -186,11 +187,11 @@ class Txt extends Formatter {
 
 
 	/**
-	 * Generates a title line with the string at the center and the
-	 * both sides filled with filler string. Fixed length of the line is strlen.
-	 * Mimimal strlen is 4.
+	 * Generates a title line with the $string at the center and the
+	 * both sides filled with the $filler. Fixed length of the line is $strlen.
+	 * Mimimal $strlen is 4.
 	 *
-	 * @param string $string Message for the center of the line
+	 * @param string $string Message of the line
 	 * @param string $filler Fills the sides of the line
 	 * @param int $strlen Length of the line
 	 *
@@ -245,14 +246,14 @@ class Txt extends Formatter {
 
 	/**
 	 * Generates a report line from the passed data.
-	 * Left part is the clause name and can not be lesser
+	 * Left part is the clause name and can not be greater
 	 * than 1/3 of the full length of the string.
-	 * Right part is the data and can not be lesser than
+	 * Right part is the data and can not be greater than
 	 * 1/3 of the full length of the string.
-	 * Filler is the part between the left and the right
-	 * and it fulfills the line so that will be as long
-	 * as needed to be equal to strlen. Strlen can not be lesser
-	 * than 10 symbols
+	 * Filler is the part between the left and the right -
+	 * it fills the line so that it will be as long
+	 * as needed to be equal to $strlen. Strlen can not be lesser
+	 * than 10 symbols.
 	 *
 	 * @param string $left Left part to display
 	 * @param string $right Right part to display
@@ -345,7 +346,7 @@ class Txt extends Formatter {
 
 
 	/**
-	 * Width of the output in symbols
+	 * Length of the line for output
 	 *
 	 * @var int
 	 */

@@ -8,7 +8,7 @@ use Debuggy\Gauger\Mark;
 
 
 /**
- * Represents an info about a marker in a sequence of them
+ * Marker in a sequence of them
  */
 class Sequential extends Mark {
 	/**

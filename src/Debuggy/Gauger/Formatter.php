@@ -10,9 +10,12 @@ use Debuggy\Gauger\Mark;
 use Closure;
 
 
+/**
+ * Format gathered info into report
+ */
 abstract class Formatter {
 	/**
-	 * Transform an info of gaugers list into final representation and return
+	 * Transforms an info of gaugers list into final representation
 	 *
 	 * @param Gauger[] $gaugers List of Gaugers
 	 *
@@ -21,7 +24,7 @@ abstract class Formatter {
 	abstract public function gaugers (array $gaugers);
 
 	/**
-	 * Transform a gauger into final representation and return
+	 * Transforms a gauger into final representation
 	 *
 	 * @param Gauger $gauger Gauger instance
 	 *
@@ -30,7 +33,7 @@ abstract class Formatter {
 	abstract public function gauger (Gauger $gauger);
 
 	/**
-	 * Transform a single Mark into final representation and return
+	 * Transforms a single Mark into final representation
 	 *
 	 * @param Mark $mark Mark to transform
 	 *
@@ -40,7 +43,7 @@ abstract class Formatter {
 
 
 	/**
-	 * Transform a list of marks into final representation and return
+	 * Transforms a list of marks into final representation
 	 *
 	 * @param array $marks Array of marks
 	 *
@@ -50,29 +53,27 @@ abstract class Formatter {
 
 
 	/**
-	 * Set duration handler that will format
-	 * all duration values during a mark output
-	 * generation
+	 * Set handler that will format all gauge values while reports generations
 	 *
 	 * @param Closure $handler Handler should take a float value and return string
 	 *
 	 * @return void
 	 */
-	public function setDurationHandler (Closure $handler = null) {
-		$this->_durationHandler = $handler;
+	public function setGaugeHandler (Closure $handler = null) {
+		$this->_gaugeHandler = $handler;
 	}
 
 
 	/**
-	 * Transform duration float value to string for human-readable output
+	 * Transforms gauge value to human-readable string
 	 *
-	 * @param float $value Duration value
+	 * @param mixed $value Gauge value
 	 *
 	 * @return string
 	 */
-	public function formatDuration ($value) {
-		if ($this->_durationHandler) {
-			$handler = $this->_durationHandler;
+	public function formatGauge ($value) {
+		if ($this->_gaugeHandler) {
+			$handler = $this->_gaugeHandler;
 			return $handler ($value);
 		} else
 			return number_format ($value, 6);
@@ -80,9 +81,9 @@ abstract class Formatter {
 
 
 	/**
-	 * Duration handler closure
+	 * Gauge handler closure
 	 *
 	 * @var Closure
 	 */
-	private $_durationHandler;
+	private $_gaugeHandler;
 }

@@ -14,7 +14,7 @@ use Debuggy\Gauger\Mark\Summary as SummaryMark;
 
 
 /**
- * Implements logic of Info to Array transformation
+ * Transforms marks to php-array
  */
 class PhpArray extends Formatter {
 	/** {@inheritdoc} */
@@ -48,7 +48,7 @@ class PhpArray extends Formatter {
 	public function singleMark (Mark $mark) {
 		$result = array (
 			'marker' => $mark->marker,
-			'duration' => $mark->duration,
+			'gauge' => $mark->gauge,
 			'extra' => $this->_transformExtraToArrayOfScalars ($mark->extra)
 		);
 
@@ -63,7 +63,7 @@ class PhpArray extends Formatter {
 
 
 	/**
-	 * Extract SequentialMark parameters into the array
+	 * Extracts SequentialMark parameters into the array
 	 *
 	 * @param SequentialMark $mark Mark for extraction
 	 * @param array &$result Result array
@@ -76,7 +76,7 @@ class PhpArray extends Formatter {
 
 
 	/**
-	 * Extract SummaryMark parameters into the array
+	 * Extracts SummaryMark parameters into the array
 	 *
 	 * @param SummaryMark $mark Mark for extraction
 	 * @param array &$result Result array
@@ -89,7 +89,7 @@ class PhpArray extends Formatter {
 
 
 	/**
-	 * Transform extra data to scalar
+	 * Transforms extra data to array of scalars
 	 *
 	 * @param array $extra Extra data
 	 *

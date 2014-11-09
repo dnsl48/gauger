@@ -8,11 +8,11 @@ use Debuggy\Gauger\Mark;
 
 
 /**
- * Summarizes an info about marker in a sequence of them
+ * Summary info about marker
  */
 class Summary extends Mark {
 	/**
-	 * Count of marks that have been summarized by this
+	 * Count of marks that are summarized by this
 	 *
 	 * @var int
 	 */

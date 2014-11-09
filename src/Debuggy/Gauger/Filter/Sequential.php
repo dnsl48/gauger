@@ -13,7 +13,7 @@ use Debuggy\Gauger\Mark\Sequential as SequentialMark;
 interface Sequential {
 	/**
 	 * Check a sequential mark and return result whether it should be
-	 * stored for result set of marks
+	 * kept for result
 	 *
 	 * @param SequentialMark $mark Mark for checking
 	 *

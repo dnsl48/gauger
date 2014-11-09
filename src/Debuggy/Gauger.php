@@ -15,21 +15,21 @@ use Exception;
 
 /**
  * Base Gauger.
- * Although it has some basic methods and constructor, its other methods
- * have to be implemented in derived classes, that are to implement some
+ * Although it has some basic methods and constructor, its abstract methods
+ * have to be implemented in derived classes. They should implement some
  * specific gauging logic.
  */
 abstract class Gauger {
 	/**
-	 * A name of the default gauger
+	 * Default name for gaugers
 	 */
 	const DEFAULT_NAME = 'Unnamed Gauger';
 
 
 	/**
-	 * Makes a gauger with identifier
+	 * Constructs instance of gauger with name
 	 *
-	 * @param string $name Identifier
+	 * @param string $name Name
 	 */
 	public function __construct ($name = null) {
 		if (!isset ($name))
@@ -40,10 +40,10 @@ abstract class Gauger {
 
 
 	/**
-	 * Makes new stamp with marker
+	 * Makes new mark with marker
 	 *
-	 * @param string $marker Marker that denotes the stamp
-	 * @param array $details Note for that stamp (optional)
+	 * @param string $marker Marker name
+	 * @param array $details Extra info about marker (optional)
 	 *
 	 * @return void
 	 */
@@ -51,11 +51,11 @@ abstract class Gauger {
 
 
 	/**
-	 * Registers an existent stamp with marker
+	 * Stamps an existent gauge with marker
 	 *
-	 * @param float $stamp Microtime stamp
-	 * @param string $marker Marker that denotes the stamp
-	 * @param array $details Note for that stamp (optional)
+	 * @param float $stamp Gauge to stamp
+	 * @param string $marker Marker name
+	 * @param array $details Extra info about marker (optional)
 	 *
 	 * @return void
 	 */
@@ -63,9 +63,19 @@ abstract class Gauger {
 
 
 	/**
+	 * Makes new gauge and returns it
+	 *
+	 * @param array $details Marker details
+	 *
+	 * @return mixed
+	 */
+	abstract protected function getGauge (array $details);
+
+
+	/**
 	 * Returns list of marks that represents gauger info at the moment of
-	 * this method invocation. If any filters passed, it'll be applied to
-	 * result set only, so that they shouldn't affect any durations.
+	 * the method invocation. If any filters passed, they will be applied to
+	 * result.
 	 *
 	 * @param array $sequentialFilters List of SequentialFilters
 	 * @param array $summaryFilters List of SummaryFilters
@@ -76,8 +86,7 @@ abstract class Gauger {
 
 
 	/**
-	 * Resets all internal storages of the instance so it is going to clear
-	 * all collected data.
+	 * Reset all internal storages of the gauger
 	 *
 	 * @return void
 	 */
@@ -85,7 +94,7 @@ abstract class Gauger {
 
 
 	/**
-	 * Returns identifier of a gauger
+	 * Returns name of the gauger
 	 *
 	 * @return string
 	 */
@@ -95,14 +104,14 @@ abstract class Gauger {
 
 
 	/**
-	 * Gauges the subject's evaluation speed.
-	 * If there is exception, it is going to be in details of fixed mark and thrown
-	 * forth.
+	 * Gauges the subject's evaluation.
+	 * If there is any exception, it will be kept in details of a fixed mark.
+	 * After it will be thrown forth.
 	 *
 	 * @param Closure $subject Subject to gauge
-	 * @param array $arguments Arguments for invocation
+	 * @param array $arguments Arguments for subject's invocation
 	 * @param string $marker Marker that denotes the subject
-	 * @param array $details Details for that subject (optional)
+	 * @param array $details Extra information about marker (optional)
 	 *
 	 * @return mixed Result of the subject's invocation
 	 *
@@ -150,8 +159,7 @@ abstract class Gauger {
 
 
 	/**
-	 * Set sequence filter.
-	 * It will be working during the gauger's gathering of marks.
+	 * Set filter that will be working during the gauger's marks gathering.
 	 *
 	 * @param SequentialFilter $filter Filter instance
 	 *
@@ -173,7 +181,7 @@ abstract class Gauger {
 
 
 	/**
-	 * Reset filters setup so that no more filters will be stored in the instance of gauger
+	 * Reset all filters
 	 *
 	 * @return void
 	 */
@@ -233,8 +241,8 @@ abstract class Gauger {
 
 
 	/**
-	 * Returns a gauger by name. If it hasn't been created yet, it's going to be so.
-	 * Furthermore, it's going to be stored in tha static scope of the class.
+	 * Returns a gauger by name. If it hasn't been created yet, it's going to be.
+	 * Furthermore, it's going to be kept in tha static scope of the class.
 	 * The next invocations of static::getStatic will always return the same object
 	 * that has been created in the first time.
 	 *

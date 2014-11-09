@@ -5,22 +5,22 @@ namespace Debuggy\Gauger;
 
 
 /**
- * Mark contains gathered info about marker
+ * Business Object that contains gathered info about marker
  */
 class Mark {
 	/**
-	 * Name of the marker
+	 * Marker name
 	 *
 	 * @var string
 	 */
 	public $marker;
 
 	/**
-	 * Duration of the marker's evaluation
+	 * Marker's evaluation gauge
 	 *
 	 * @var float
 	 */
-	public $duration;
+	public $gauge;
 
 	/**
 	 * Extra information of the mark (mixed array)

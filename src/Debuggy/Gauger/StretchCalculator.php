@@ -15,9 +15,9 @@ use Debuggy\Gauger\Mark\Summary as SummaryMark;
 
 /**
  * Gauges stretches between two points with the same markers.
- * For each pointer will be saved info about total amount of evaluation time and count of invocations.
+ * For each marker will be kept only summary information.
  */
-class StretchCalculator extends Gauger {
+abstract class StretchCalculator extends Gauger {
 	/**
 	 * {@inheritdoc}
 	 */
@@ -44,7 +44,7 @@ class StretchCalculator extends Gauger {
 
 			$summary[$marker] = new SummaryMark;
 			$summary[$marker]->marker = $marker;
-			$summary[$marker]->duration = $stamps[0];
+			$summary[$marker]->gauge = $stamps[0];
 			$summary[$marker]->count = $this->_marks_count[$marker] / 2;
 			$summary[$marker]->extra = array_filter (
 				array_combine (
@@ -81,18 +81,17 @@ class StretchCalculator extends Gauger {
 
 
 	/**
-	 * Makes mark's data and store that in internal arrays
+	 * Makes mark's data and keep it in the object
 	 *
-	 * @param string $marker Marker that denotes the stamp
-	 * @param array $details Note for that stamp (optional)
-	 * @param float $stamp Microtime stamp
+	 * @param string $marker Marker name
+	 * @param array $details Extra data for that marker (optional)
+	 * @param float $gauge Gauge
 	 *
 	 * @return void
 	 */
-	private function _makeMark ($marker, $details = array (), $stamp = null) {
-		// top stamp without method's overhead (should be second in the couple of stamps)
-		$_stamp = microtime (true);
-		$stamp = $stamp ? $stamp : $_stamp;
+	private function _makeMark ($marker, $details = array (), $gauge = null) {
+		// top stamp that does not have any method's overhead
+		$gauge = $gauge ? $gauge : $this->getGauge ($details);
 
 		if (!isset ($this->_marks_storage[$marker])) {
 			$this->_marks_storage[$marker] = array (0);
@@ -104,14 +103,14 @@ class StretchCalculator extends Gauger {
 		}
 
 		if (isset ($this->_marks_storage[$marker][1])) {
-			$delta = $stamp - $this->_marks_storage[$marker][1];
+			$delta = $gauge - $this->_marks_storage[$marker][1];
 
 			$filtersResult = true;
 
 			if ($filters = $this->getFilters ()) {
 				$mark = new SequentialMark;
 				$mark->marker = $marker;
-				$mark->duration = $delta;
+				$mark->gauge = $delta;
 				$mark->extra = $details ? $details : null;
 				$mark->number = $this->_marks_count[$marker];
 
@@ -133,10 +132,10 @@ class StretchCalculator extends Gauger {
 
 			unset ($this->_marks_storage[$marker][1]);
 		} else
-			$this->_marks_storage[$marker][1] = &$stamp;
+			$this->_marks_storage[$marker][1] = &$gauge;
 
-		// bottom stamp without method's overhead (should be first in the couple of stamps)
-		$stamp = $stamp ? $stamp : microtime(true);
+		// bottom stamp that does not have any method's overhead
+		$gauge = $gauge ? $gauge : $this->getGauge ($details);
 	}
 
 
@@ -153,7 +152,7 @@ class StretchCalculator extends Gauger {
 
 
 	/**
-	 * Storage of stamps and marks
+	 * Storage for stamps and marks
 	 *
 	 * @var array
 	 */
@@ -161,7 +160,7 @@ class StretchCalculator extends Gauger {
 
 
 	/**
-	 * Conter of marks' invocations
+	 * Conter of marks
 	 *
 	 * @var array
 	 */
@@ -169,7 +168,7 @@ class StretchCalculator extends Gauger {
 
 
 	/**
-	 * Details of markers
+	 * Markers extra info
 	 *
 	 * @var array
 	 */

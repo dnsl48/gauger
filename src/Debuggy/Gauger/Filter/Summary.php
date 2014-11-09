@@ -13,7 +13,7 @@ use Debuggy\Gauger\Mark\Summary as SummaryMark;
 interface Summary {
 	/**
 	 * Check a summary mark and return result whether it should be
-	 * stored for result set of marks
+	 * kept for result
 	 *
 	 * @param SummaryMark $mark Mark for checking
 	 *

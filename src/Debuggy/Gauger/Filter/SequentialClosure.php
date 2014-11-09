@@ -10,13 +10,13 @@ use Closure;
 
 
 /**
- * Encapsulates closure that will be invoked each time for checking a mark
+ * Encapsulates closure that will be invoked for checking marks
  */
 class SequentialClosure implements Sequential {
 	/**
-	 * Takes closure that should be invoked for each mark that should be checked
+	 * Takes closure that should be invoked for checking marks
 	 *
-	 * @param Closure $closure Closure that will be invoked for each mark
+	 * @param Closure $closure Closure that will check the marks
 	 */
 	public function __construct (Closure $closure) {
 		$this->_closure = $closure;
@@ -31,7 +31,7 @@ class SequentialClosure implements Sequential {
 	}
 
 	/**
-	 * Closure for check marks
+	 * Closure for checking marks
 	 *
 	 * @var Closure
 	 */
