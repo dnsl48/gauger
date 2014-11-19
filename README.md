@@ -36,6 +36,19 @@ You can clone the repository of the library from github. Only what you need is a
 The library's root namespace is `Debuggy` that is in the folder `src`.
 
 
+Features
+--------
+
+ * Two built-in indicators: Elapsed time (`microtime`) / Used memory (`memory_get_usage`)
+ * Extremely easy way to make your own indicators (`Closure`, `Gauger::getGauge`)
+ * Built-in calculation of a summary info (see example)
+ * Correct Exceptions handling while a gauge (`Gauger::gauge`)
+ * Most critical code can be gauged without any overhead (`Gauger::stamp`)
+ * Any custom details can be kept while a harvest and obtained later (`Mark::extra`)
+ * Static access to any gauger by its name in any place of an Application (`Gauger::getStatic`)
+ * Flexible filtering of the most interesting parts of statistic (`Filter`)
+
+
 Documentation
 -------------
 
@@ -45,7 +58,7 @@ However, here are some basic concepts:
 
  * `Mark`: [Business Object](http://en.wikipedia.org/wiki/Business_object) with gathered info
  * `Gauger`: Makes marks and keeps them
- * `Formatter`: Transforms marks into reports (text, html, xml, php-array and others)
+ * `Reporter`: Transforms marks into reports (text, html, xml, php-array and others)
  * `Filter`: Gaugers use filters to decide whether marks should be kept
 
 
@@ -55,8 +68,8 @@ Examples
 Though you can make Gauger's derived class that will take any measures you need, for now there are
 two base gaugers you can use.
 
- * `StretchAccumulator`: Accumulates all marks during its work and produces two sets of marks: Sequential and Summary
- * `StretchCalculator`: Does not keep all regular marks during the work. Eventually produces only Summary set of marks
+ * `StretchAccumulator`: Accumulates all marks during its work and produces two collections of marks: Sequential and Summary
+ * `StretchCalculator`: Does not keep all regular marks during the work. Eventually produces only Summary collection of marks
 
 Lets see the example with `StretchAccumulator`:
 
@@ -98,16 +111,6 @@ The result will be like that:
 
 Here we can see, that md5 was slower in the Summary, however in the second loop it took the same time as sha1.
 Also, in the Summary we can see that each marker was harvested twice (embraced figure).
-
-
-Anything else?
----------------
-
- * Easy way to gauge anything with correct Exceptions handle: `Gauger::gauge ($closure, $constructData, $marker);`
- * Most critical parts of code can be gauged **without any overhead** with `microtime` and `Gauger::stamp`
- * Any Run-time info can be kept. Pass it as the second attribute of `Gauger::mark` (or third of `Gauger::stamp`)
- * Static access to any gauger by its name in any place of an Application (`Gauger::getStatic`)
- * Filter by duration so that the report will contain only slowest parts of an Application (`Filter\Duration`)
 
 
 License
