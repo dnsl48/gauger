@@ -11,6 +11,19 @@ What is Gauger?
 Gauger is an extensible and comprehensive tool for measuring PHP scripts and applications. It is written rather for debugging, however it could be used for testing purposes as well.
 
 
+Features
+--------
+
+ * Two built-in indicators: Elapsed time (`microtime`) / Used memory (`memory_get_usage`)
+ * Extremely easy way to make your own indicators (`Closure`, `Gauger::getGauge`)
+ * Built-in calculation of a summary info (see example)
+ * Correct Exceptions handling while a gauge (`Gauger::gauge`)
+ * Most critical code can be gauged without any overhead (`Gauger::stamp`)
+ * Any custom details can be kept while a harvest and obtained later (`Mark::extra`)
+ * Static access to any gauger by its name in any place of an Application (`Gauger::getStatic`)
+ * Flexible filtering of the most interesting parts of statistic (`Filter`)
+
+
 Installation
 ------------
 
@@ -34,19 +47,6 @@ To see how to use composer in general, you can look at the [official documentati
 
 You can clone the repository of the library from github. Only what you need is autoloader which is compatible with `PSR-4` standard.
 The library's root namespace is `Debuggy` that is in the folder `src`.
-
-
-Features
---------
-
- * Two built-in indicators: Elapsed time (`microtime`) / Used memory (`memory_get_usage`)
- * Extremely easy way to make your own indicators (`Closure`, `Gauger::getGauge`)
- * Built-in calculation of a summary info (see example)
- * Correct Exceptions handling while a gauge (`Gauger::gauge`)
- * Most critical code can be gauged without any overhead (`Gauger::stamp`)
- * Any custom details can be kept while a harvest and obtained later (`Mark::extra`)
- * Static access to any gauger by its name in any place of an Application (`Gauger::getStatic`)
- * Flexible filtering of the most interesting parts of statistic (`Filter`)
 
 
 Documentation
