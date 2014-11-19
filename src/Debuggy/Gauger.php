@@ -4,7 +4,7 @@
 namespace Debuggy;
 
 
-use Debuggy\Gauger\Formatter\Txt as TxtFormatter;
+use Debuggy\Gauger\Reporter\Txt as TxtReporter;
 
 use Debuggy\Gauger\Filter\Sequential as SequentialFilter;
 use Debuggy\Gauger\Filter\Summary as SummaryFilter;
@@ -191,14 +191,25 @@ abstract class Gauger {
 
 
 	/**
-	 * Returns a report in Txt format
+	 * Returns a report as a string representation
 	 *
 	 * @return string
 	 */
 	public function __toString () {
-		$formatter = new TxtFormatter;
+		$reporter = $this->getReporter ();
 
-		return $formatter->gauger ($this);
+		return $reporter->gauger ($this);
+	}
+
+
+	/**
+	 * Makes and returns an instance of a reporter, most appropriate for
+	 * the current gauger.
+	 *
+	 * @return \Debuggy\Gauger\Reporter
+	 */
+	protected function getReporter () {
+		return new TxtReporter;
 	}
 
 

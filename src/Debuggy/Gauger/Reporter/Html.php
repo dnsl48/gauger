@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Debuggy\Gauger\Formatter;
+namespace Debuggy\Gauger\Reporter;
 
 
 use Debuggy\Gauger;
 
-use Debuggy\Gauger\Formatter;
+use Debuggy\Gauger\Reporter;
 
 use Debuggy\Gauger\Mark;
 
@@ -16,7 +16,7 @@ use Debuggy\Gauger\Mark;
  * For report making it uses Txt formatter and then htmlspecialchars
  * for escaping its result.
  */
-class Html extends Formatter {
+class Html extends Reporter {
 	/**
 	 * Constructs Html formatter that incapsulates a Txt one.
 	 * If $enclose is true, it will make the full HTML page with <html><head> and <body> tags.
@@ -30,13 +30,13 @@ class Html extends Formatter {
 	public function __construct ($enclose = true, $outputWidth = 80, $border = '*', $filler = '.') {
 		$this->_encloseFlag = $enclose;
 
-		$this->_txtFormatter = new Txt ($outputWidth, $border, $filler);
+		$this->_txt = new Txt ($outputWidth, $border, $filler);
 	}
 
 
 	/** {@inheritdoc} */
 	public function gaugers (array $gaugers) {
-		$result = htmlspecialchars ($this->_txtFormatter->gaugers ($gaugers));
+		$result = htmlspecialchars ($this->_txt->gaugers ($gaugers));
 
 		return $this->_encloseFlag ? $this->_enclose ($result) : $result;
 	}
@@ -44,23 +44,23 @@ class Html extends Formatter {
 
 	/** {@inheritdoc} */
 	public function gauger (Gauger $gauger) {
-		$result = htmlspecialchars ($this->_txtFormatter->gauger ($gauger));
+		$result = htmlspecialchars ($this->_txt->gauger ($gauger));
 
 		return $this->_encloseFlag ? $this->_enclose ($result) : $result;
 	}
 
 
 	/** {@inheritdoc} */
-	public function arrayOfMarks (array $marks) {
-		$result = htmlspecialchars ($this->_txtFormatter->arrayOfMarks ($marks));
+	public function marks (array $marks) {
+		$result = htmlspecialchars ($this->_txt->marks ($marks));
 
 		return $this->_encloseFlag ? $this->_enclose ($result) : $result;
 	}
 
 
 	/** {@inheritdoc} */
-	public function singleMark (Mark $mark) {
-		$result = htmlspecialchars ($this->_txtFormatter->singleMark ($mark));
+	public function mark (Mark $mark) {
+		$result = htmlspecialchars ($this->_txt->mark ($mark));
 
 		return $this->_encloseFlag ? $this->_enclose ($result) : $result;
 	}
@@ -84,4 +84,12 @@ class Html extends Formatter {
 	 * @var bool
 	 */
 	private $_encloseFlag;
+
+
+	/**
+	 * Txt reporter instance
+	 *
+	 * @var Txt
+	 */
+	private $_txt;
 }

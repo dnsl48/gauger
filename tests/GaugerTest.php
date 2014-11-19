@@ -15,7 +15,7 @@ use Debuggy\Gauger\StretchClosureCalculator;
 use Debuggy\Gauger\Filter\SequentialClosure;
 use Debuggy\Gauger\Filter\SummaryClosure;
 
-use Debuggy\Gauger\Formatter\Txt as TxtFormatter;
+use Debuggy\Gauger\Reporter\Txt as TxtReporter;
 
 
 class GaugerTest extends PHPUnit_Framework_TestCase {
@@ -75,10 +75,20 @@ class GaugerTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testToString () {
-		$gauger = new StretchTimeAccumulator;
-		$formatter = new TxtFormatter;
+		$reporter = new TxtReporter;
 
-		$this->assertEquals ($formatter->gauger ($gauger), (string) $gauger, 'TxtFormatter has made different result with gauger->__toString');
+
+		$timeAcc = new StretchTimeAccumulator;
+		$this->assertEquals ($reporter->gauger ($timeAcc), (string) $timeAcc, 'TxtReporter has made different result with gauger->__toString');
+
+		$timeCalc = new StretchTimeCalculator;
+		$this->assertEquals ($reporter->gauger ($timeCalc), (string) $timeCalc, 'TxtReporter has made different result with gauger->__toString');
+
+		$memoAcc = new StretchMemoryAccumulator;
+		$this->assertEquals ($reporter->gauger ($memoAcc), (string) $memoAcc, 'TxtReporter has made different result with gauger->__toString');
+
+		$memoCalc = new StretchMemoryCalculator;
+		$this->assertEquals ($reporter->gauger ($memoCalc), (string) $memoCalc, 'TxtReporter has made different result with gauger->__toString');
 	}
 
 	public function testStretchTimeAccumulator () {

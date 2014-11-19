@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Debuggy\Gauger\Formatter;
+namespace Debuggy\Gauger\Reporter;
 
 
 use Debuggy\Gauger;
 
-use Debuggy\Gauger\Formatter;
+use Debuggy\Gauger\Reporter;
 
 use Debuggy\Gauger\Mark;
 use Debuggy\Gauger\Mark\Sequential as SequentialMark;
@@ -16,7 +16,7 @@ use Debuggy\Gauger\Mark\Summary as SummaryMark;
 /**
  * Transforms marks to plain text
  */
-class Txt extends Formatter {
+class Txt extends Reporter {
 	/**
 	 * The width of report can not be less than 16 symbols
 	 *
@@ -51,14 +51,14 @@ class Txt extends Formatter {
 
 		$result[] = $this->_title ($this->_space ($gauger->getName ()), $this->_border, $this->_outputWidth);
 
-		$result[] = trim ($this->arrayOfMarks ($gauger->getMarks ()));
+		$result[] = trim ($this->marks ($gauger->getMarks ()));
 
 		return implode (PHP_EOL, $result).PHP_EOL;
 	}
 
 
 	/** {@inheritdoc} */
-	public function arrayOfMarks (array $marks) {
+	public function marks (array $marks) {
 		$groups = $this->splitMarks ($marks);
 
 		$result = array ();
@@ -68,7 +68,7 @@ class Txt extends Formatter {
 				$result[] = $this->_title ($this->_space ($title), $this->_border, $this->_outputWidth);
 
 				foreach ($group as $mark)
-					$result[] = $this->singleMark ($mark);
+					$result[] = $this->mark ($mark);
 			}
 		}
 
@@ -81,7 +81,7 @@ class Txt extends Formatter {
 
 
 	/** {@inheritdoc} */
-	public function singleMark (Mark $mark) {
+	public function mark (Mark $mark) {
 		$result = $this->_report (
 			$this->_space ($this->getMarkerName ($mark)),
 			$this->_space ($this->formatGauge ($mark->gauge)),

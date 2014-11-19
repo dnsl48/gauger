@@ -4,12 +4,25 @@
 namespace Debuggy\Gauger;
 
 
+use Debuggy\Gauger\Reporter\Formatter\Memory as MemoryFormatter;
+
+
 /**
  * Gauges memory usage stamps
  */
 class StretchMemoryAccumulator extends StretchAccumulator {
 	/** {@inheritdoc} */
 	protected function getGauge (array $details) {
-		return memory_get_usage () / 1000 / 1000;
+		return memory_get_usage ();
+	}
+
+
+	/** {@inheritdoc} */
+	protected function getReporter () {
+		$reporter = parent::getReporter ();
+
+		$reporter->setGaugeFormatter (new MemoryFormatter);
+
+		return $reporter;
 	}
 }

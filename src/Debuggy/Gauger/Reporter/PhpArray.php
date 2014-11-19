@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Debuggy\Gauger\Formatter;
+namespace Debuggy\Gauger\Reporter;
 
 
 use Debuggy\Gauger;
 
-use Debuggy\Gauger\Formatter;
+use Debuggy\Gauger\Reporter;
 
 use Debuggy\Gauger\Mark;
 use Debuggy\Gauger\Mark\Sequential as SequentialMark;
@@ -16,7 +16,7 @@ use Debuggy\Gauger\Mark\Summary as SummaryMark;
 /**
  * Transforms marks to php-array
  */
-class PhpArray extends Formatter {
+class PhpArray extends Reporter {
 	/** {@inheritdoc} */
 	public function gaugers (array $gaugers) {
 		$result = array ();
@@ -29,23 +29,23 @@ class PhpArray extends Formatter {
 
 	/** {@inheritdoc} */
 	public function gauger (Gauger $gauger) {
-		return array ($gauger->getName () => $this->arrayOfMarks ($gauger->getMarks ()));
+		return array ($gauger->getName () => $this->marks ($gauger->getMarks ()));
 	}
 
 
 	/** {@inheritdoc} */
-	public function arrayOfMarks (array $marks) {
+	public function marks (array $marks) {
 		$result = array ();
 
 		foreach ($marks as $idx => $mark)
-			$result[$idx] = $this->singleMark ($mark);
+			$result[$idx] = $this->mark ($mark);
 
 		return $result;
 	}
 
 
 	/** {@inheritdoc} */
-	public function singleMark (Mark $mark) {
+	public function mark (Mark $mark) {
 		$result = array (
 			'marker' => $mark->marker,
 			'gauge' => $mark->gauge,

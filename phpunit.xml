@@ -4,7 +4,7 @@
 		<testsuite name="generic">
 			<file>tests/GaugerTest.php</file>
 			<file>tests/FilterTest.php</file>
-			<file>tests/FormatterTest.php</file>
+			<file>tests/ReporterTest.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>

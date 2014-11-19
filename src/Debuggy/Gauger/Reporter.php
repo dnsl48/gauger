@@ -7,13 +7,13 @@ namespace Debuggy\Gauger;
 use Debuggy\Gauger;
 use Debuggy\Gauger\Mark;
 
-use Closure;
+use Debuggy\Gauger\Reporter\Formatter;
 
 
 /**
- * Format gathered info into report
+ * Formats gathered info into a report
  */
-abstract class Formatter {
+abstract class Reporter {
 	/**
 	 * Transforms an info of gaugers list into final representation
 	 *
@@ -22,6 +22,7 @@ abstract class Formatter {
 	 * @return mixed
 	 */
 	abstract public function gaugers (array $gaugers);
+
 
 	/**
 	 * Transforms a gauger into final representation
@@ -32,6 +33,7 @@ abstract class Formatter {
 	 */
 	abstract public function gauger (Gauger $gauger);
 
+
 	/**
 	 * Transforms a single Mark into final representation
 	 *
@@ -39,7 +41,7 @@ abstract class Formatter {
 	 *
 	 * @return mixed
 	 */
-	abstract public function singleMark (Mark $mark);
+	abstract public function mark (Mark $mark);
 
 
 	/**
@@ -49,34 +51,32 @@ abstract class Formatter {
 	 *
 	 * @return mixed
 	 */
-	abstract public function arrayOfMarks (array $marks);
+	abstract public function marks (array $marks);
 
 
 	/**
 	 * Set handler that will format all gauge values while reports generations
 	 *
-	 * @param Closure $handler Handler should take a float value and return string
+	 * @param Formatter $formatter Formatter that will transform gauges
 	 *
 	 * @return void
 	 */
-	public function setGaugeHandler (Closure $handler = null) {
-		$this->_gaugeHandler = $handler;
+	public function setGaugeFormatter (Formatter $formatter = null) {
+		$this->_gaugeFormatter = $formatter;
 	}
 
 
 	/**
-	 * Transforms gauge value to human-readable string
+	 * Transforms gauge value to a string
 	 *
-	 * @param mixed $value Gauge value
+	 * @param mixed $gauge Gauge to format
 	 *
 	 * @return string
 	 */
-	public function formatGauge ($value) {
-		if ($this->_gaugeHandler) {
-			$handler = $this->_gaugeHandler;
-			return $handler ($value);
-		} else
-			return number_format ($value, 6);
+	public function formatGauge ($gauge) {
+		return $this->_gaugeFormatter
+			? $this->_gaugeFormatter->transform ($gauge)
+			: (string) $gauge;
 	}
 
 
@@ -85,5 +85,5 @@ abstract class Formatter {
 	 *
 	 * @var Closure
 	 */
-	private $_gaugeHandler;
+	private $_gaugeFormatter;
 }

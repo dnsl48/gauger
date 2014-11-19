@@ -9,10 +9,15 @@ $g = $d.'Gauger/';
 require_once $d.'Gauger.php';
 
 
-require_once $g.'Formatter.php';
-require_once $g.'Formatter/Html.php';
-require_once $g.'Formatter/Txt.php';
-require_once $g.'Formatter/PhpArray.php';
+require_once $g.'Reporter.php';
+require_once $g.'Reporter/Html.php';
+require_once $g.'Reporter/Txt.php';
+require_once $g.'Reporter/PhpArray.php';
+
+require_once $g.'Reporter/Formatter.php';
+require_once $g.'Reporter/Formatter/Closure.php';
+require_once $g.'Reporter/Formatter/Memory.php';
+require_once $g.'Reporter/Formatter/Microtime.php';
 
 
 require_once $g.'Filter/Sequential.php';

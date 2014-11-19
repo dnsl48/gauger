@@ -7,14 +7,18 @@ use Debuggy\Gauger\StretchTimeCalculator;
 
 use Debuggy\Gauger\Mark;
 
-use Debuggy\Gauger\Formatter\Txt;
-use Debuggy\Gauger\Formatter\PhpArray;
-use Debuggy\Gauger\Formatter\Html;
+use Debuggy\Gauger\Reporter\Txt;
+use Debuggy\Gauger\Reporter\PhpArray;
+use Debuggy\Gauger\Reporter\Html;
+
+use Debuggy\Gauger\Reporter\Formatter\Closure as ClosureFormatter;
+use Debuggy\Gauger\Reporter\Formatter\Memory as MemoryFormatter;
+use Debuggy\Gauger\Reporter\Formatter\Microtime as MicrotimeFormatter;
 
 
-class FormatterTest extends PHPUnit_Framework_TestCase {
+class ReporterTest extends PHPUnit_Framework_TestCase {
 	public function testTxt () {
-		$formatter = new Txt (36);
+		$reporter = new Txt (36);
 
 		$gauger1 = new StretchTimeCalculator ('First');
 
@@ -30,26 +34,26 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 		$expectedResult =
 			'************** First ***************'.PHP_EOL.
 			'************* Summary **************'.PHP_EOL.
-			'* marker (1) ............ 1.000000 *'.PHP_EOL.
+			'* marker (1) ................... 1 *'.PHP_EOL.
 			'************************************'.PHP_EOL.
 			'************** Second **************'.PHP_EOL.
 			'************* Summary **************'.PHP_EOL.
-			'* marker (1) ............ 0.100000 *'.PHP_EOL.
+			'* marker (1) ................. 0.1 *'.PHP_EOL.
 			'************************************'.PHP_EOL;
 
-		$this->assertEquals ($expectedResult, $formatter->gaugers (array ($gauger1, $gauger2)));
+		$this->assertEquals ($expectedResult, $reporter->gaugers (array ($gauger1, $gauger2)));
 
 		$m = new Mark;
 		$m->marker = 'Marker';
 		$m->gauge = '0.000100';
 
-		$this->assertEquals ('* Marker ................ 0.000100 *', $formatter->singleMark ($m));
+		$this->assertEquals ('* Marker ................ 0.000100 *', $reporter->mark ($m));
 
 
 		$gauger = new StretchTimeAccumulator ('Very very long long string string');
 		$gauger->stamp (1, 'marker');
 		$gauger->stamp (2, 'marker');
-		$formatter->setGaugeHandler (function () {return '0.000001';});
+		$reporter->setGaugeFormatter (new ClosureFormatter (function () {return '0.000001';}));
 
 		$expectedResult =
 			'********** Very very long **********'.PHP_EOL.
@@ -61,33 +65,33 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 			'* marker (1) ............ 0.000001 *'.PHP_EOL.
 			'************************************'.PHP_EOL;
 
-		$this->assertEquals ($expectedResult, $formatter->gauger ($gauger));
+		$this->assertEquals ($expectedResult, $reporter->gauger ($gauger));
 
 
 		$gauger = new StretchTimeAccumulator ('_');
 		$gauger->stamp (1, 'long marker');
 		$gauger->stamp (2, 'long marker', array ('extra key' => 'long string'));
-		$formatter->setGaugeHandler (null);
+		$reporter->setGaugeFormatter (null);
 
 		$expectedResult =
 			'**************** _ *****************'.PHP_EOL.
 			'************* Regular **************'.PHP_EOL.
 			'* 1. long                          *'.PHP_EOL.
-			'* marker ................ 1.000000 *'.PHP_EOL.
+			'* marker ....................... 1 *'.PHP_EOL.
 			'** former ....................... **'.PHP_EOL.
 			'** latter                         **'.PHP_EOL.
 			'*** extra key ............. long ***'.PHP_EOL.
 			'***                       string ***'.PHP_EOL.
 			'************* Summary **************'.PHP_EOL.
 			'* long                             *'.PHP_EOL.
-			'* marker (1) ............ 1.000000 *'.PHP_EOL.
+			'* marker (1) ................... 1 *'.PHP_EOL.
 			'************************************'.PHP_EOL;
 
-		$this->assertEquals ($expectedResult, $formatter->gauger ($gauger));
+		$this->assertEquals ($expectedResult, $reporter->gauger ($gauger));
 	}
 
 	public function testHtml () {
-		$formatter = new Html (true, 36);
+		$reporter = new Html (true, 36);
 
 		$gauger1 = new StretchTimeCalculator ('First');
 
@@ -103,15 +107,15 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 		$expectedResult =
 			'<!DOCTYPE html><html><head><title>Debuggy Gauger report</title></head><body><pre>************** First ***************'.PHP_EOL.
 			'************* Summary **************'.PHP_EOL.
-			'* marker (1) ............ 1.000000 *'.PHP_EOL.
+			'* marker (1) ................... 1 *'.PHP_EOL.
 			'************************************'.PHP_EOL.
 			'************** Second **************'.PHP_EOL.
 			'************* Summary **************'.PHP_EOL.
-			'* marker (1) ............ 0.100000 *'.PHP_EOL.
+			'* marker (1) ................. 0.1 *'.PHP_EOL.
 			'************************************'.PHP_EOL.
 			'</pre></body></html>';
 
-		$this->assertEquals ($expectedResult, $formatter->gaugers (array ($gauger1, $gauger2)));
+		$this->assertEquals ($expectedResult, $reporter->gaugers (array ($gauger1, $gauger2)));
 
 
 		$gauger = new StretchTimeCalculator ('First');
@@ -122,34 +126,34 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 		$expectedResult =
 			'<!DOCTYPE html><html><head><title>Debuggy Gauger report</title></head><body><pre>************** First ***************'.PHP_EOL.
 			'************* Summary **************'.PHP_EOL.
-			'* marker (1) ............ 1.000000 *'.PHP_EOL.
+			'* marker (1) ................... 1 *'.PHP_EOL.
 			'************************************'.PHP_EOL.
 			'</pre></body></html>';
 
-		$this->assertEquals ($expectedResult, $formatter->gauger ($gauger1));
+		$this->assertEquals ($expectedResult, $reporter->gauger ($gauger1));
 
 
 		$marks = $gauger->getMarks ();
 
 		$expectedResult =
 			'<!DOCTYPE html><html><head><title>Debuggy Gauger report</title></head><body><pre>************* Summary **************'.PHP_EOL.
-			'* marker (1) ............ 1.000000 *'.PHP_EOL.
+			'* marker (1) ................... 1 *'.PHP_EOL.
 			'************************************'.PHP_EOL.
 			'</pre></body></html>';
 
-		$this->assertEquals ($expectedResult, $formatter->arrayOfMarks ($marks));
+		$this->assertEquals ($expectedResult, $reporter->marks ($marks));
 
 
 		$expectedResult =
 			'<!DOCTYPE html><html><head><title>Debuggy Gauger report</title></head><body><pre>'.
-			'* marker (1) ............ 1.000000 *'.
+			'* marker (1) ................... 1 *'.
 			'</pre></body></html>';
 
-		$this->assertEquals ($expectedResult, $formatter->singleMark ($marks['marker']));
+		$this->assertEquals ($expectedResult, $reporter->mark ($marks['marker']));
 	}
 
 	public function testPhpArray () {
-		$formatter = new PhpArray;
+		$reporter = new PhpArray;
 
 		$gauger1 = new StretchTimeAccumulator ('First');
 
@@ -193,6 +197,35 @@ class FormatterTest extends PHPUnit_Framework_TestCase {
 			)
 		);
 
-		$this->assertEquals ($expectedResult, $formatter->gaugers (array ($gauger1, $gauger2)));
+		$this->assertEquals ($expectedResult, $reporter->gaugers (array ($gauger1, $gauger2)));
+	}
+
+
+	public function testMemoryFormatter () {
+		$formatter = new MemoryFormatter;
+
+		if (function_exists ('bcdiv') && function_exists ('bcmod')) {
+			$this->assertSame ('1KiB', $formatter->transform (1024), 'MicrotimeFormatter wrong transformation');
+			$this->assertSame ('3MiB 24KiB', $formatter->transform (3170304), 'MicrotimeFormatter wrong transformation');
+			$this->assertSame ('2GiB 32MiB 264KiB', $formatter->transform (2181308416), 'MicrotimeFormatter wrong transformation');
+			$this->assertSame ('3TiB 2GiB 32MiB 264KiB', $formatter->transform (3300716191744), 'MicrotimeFormatter wrong transformation');
+			$this->assertSame ('2PiB 3TiB 2GiB 32MiB 264KiB', $formatter->transform (2255100529876992), 'MicrotimeFormatter wrong transformation');
+			$this->assertSame ('4EiB 2PiB 3TiB 2GiB 32MiB 264KiB', $formatter->transform (4613941118957264896), 'MicrotimeFormatter wrong transformation');
+			$this->assertSame ('3ZiB 4EiB 2PiB 3TiB 2GiB 32MiB 264KiB', $formatter->transform ('3546388803271191175168'), 'MicrotimeFormatter wrong transformation');
+			$this->assertSame ('86YiB 3ZiB 4EiB 2PiB 3TiB 2GiB 32MiB 264KiB', $formatter->transform ('103971166875661380215906304'), 'MicrotimeFormatter wrong transformation');
+		}
+
+		$formatter->useBcMath (false);
+
+		$this->assertSame ('1KiB', $formatter->transform (1024), 'MicrotimeFormatter wrong transformation');
+		$this->assertSame ('3MiB 24KiB', $formatter->transform (3170304), 'MicrotimeFormatter wrong transformation');
+		$this->assertSame ('2GiB 32MiB 264KiB', $formatter->transform (2181308416), 'MicrotimeFormatter wrong transformation');
+		$this->assertSame ('3TiB 2GiB 32MiB 264KiB', $formatter->transform (3300716191744), 'MicrotimeFormatter wrong transformation');
+	}
+
+
+	public function testMicrotimeFormatter () {
+		$formatter = new MicrotimeFormatter;
+		$this->assertSame ('1.010000', $formatter->transform (1.01), 'MicrotimeFormatter wrong transformation');
 	}
 }
