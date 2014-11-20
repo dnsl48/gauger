@@ -15,7 +15,7 @@ class Memory extends Formatter {
 	/**
 	 * Kibibyte
 	 */
-	const KiB = ~1;
+	const KiB = -2;
 
 
 	/**
@@ -27,7 +27,7 @@ class Memory extends Formatter {
 	/**
 	 * Mebibyte
 	 */
-	const MiB = ~2;
+	const MiB = -3;
 
 
 	/**
@@ -39,7 +39,7 @@ class Memory extends Formatter {
 	/**
 	 * Gibibyte
 	 */
-	const GiB = ~4;
+	const GiB = -5;
 
 
 	/**
@@ -51,7 +51,7 @@ class Memory extends Formatter {
 	/**
 	 * Tebibyte
 	 */
-	const TiB = ~8;
+	const TiB = -9;
 
 
 	/**
@@ -63,7 +63,7 @@ class Memory extends Formatter {
 	/**
 	 * Pebibyte
 	 */
-	const PiB = ~16;
+	const PiB = -17;
 
 
 	/**
@@ -75,7 +75,7 @@ class Memory extends Formatter {
 	/**
 	 * Exbibyte
 	 */
-	const EiB = ~32;
+	const EiB = -33;
 
 
 	/**
@@ -87,7 +87,7 @@ class Memory extends Formatter {
 	/**
 	 * Zebibyte
 	 */
-	const ZiB = ~64;
+	const ZiB = -65;
 
 
 	/**
@@ -99,7 +99,7 @@ class Memory extends Formatter {
 	/**
 	 * Yobibyte
 	 */
-	const YiB = ~128;
+	const YiB = -129;
 
 
 	/**
