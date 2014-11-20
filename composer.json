@@ -1,8 +1,8 @@
 {
 	"name": "debuggy/gauger",
 	"type": "library",
-	"description": "Comprehensive timing and gauging tool for PHP",
-	"keywords": ["timer", "gauge", "debug"],
+	"description": "Very extensible tool for measuring and debugging PHP scripts and applications",
+	"keywords": ["timer", "profiler", "benchmark", "gauge", "debug"],
 	"license": "Apache-2.0",
 	"authors": [{"name": "Latyntsev Sergey"}],
 	"require": {
