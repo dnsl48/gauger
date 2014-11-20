@@ -1,7 +1,7 @@
 Gauger
 ======
 
-## [![Build Status](https://travis-ci.org/dnsl48/Gauger.svg?branch=master)](https://travis-ci.org/dnsl48/Gauger)  [![Coverage Status](https://img.shields.io/coveralls/dnsl48/Gauger.svg)](https://coveralls.io/r/dnsl48/Gauger?branch=master)
+## [![Build Status](https://travis-ci.org/dnsl48/Gauger.svg?branch=master)](https://travis-ci.org/dnsl48/Gauger)  [![Coverage Status](https://img.shields.io/coveralls/dnsl48/Gauger.svg)](https://coveralls.io/r/dnsl48/Gauger?branch=master) [![License](https://poser.pugx.org/debuggy/gauger/license.svg)](https://packagist.org/packages/debuggy/gauger)
 
 Tests were passing PHP 5.3, 5.4, 5.5, 5.6 and hhvm.
 
@@ -17,9 +17,9 @@ Features
  * Two built-in indicators: Elapsed time (`microtime`) / Used memory (`memory_get_usage`)
  * Extremely easy way to make your own indicators (`Closure`, `Gauger::getGauge`)
  * Built-in calculation of a summary info (see example)
- * Correct Exceptions handling while a gauge (`Gauger::gauge`)
+ * Easy way to gauge with a correct exceptions handling (`Gauger::gauge`)
  * Most critical code can be gauged without any overhead (`Gauger::stamp`)
- * Any custom details can be kept while a harvest and obtained later (`Mark::extra`)
+ * Any custom details can be kept during gauges and obtained later (`Mark::extra`)
  * Static access to any gauger by its name in any place of an Application (`Gauger::getStatic`)
  * Flexible filtering of the most interesting parts of statistic (`Filter`)
 
