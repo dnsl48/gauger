@@ -12,7 +12,7 @@ use Closure as _Closure;
 /**
  * Holds the closure that will be invoked to transform values in appropriate representation for reports
  */
-class Closure extends Formatter {
+class Closure implements Formatter {
 	/**
 	 * Initializes the formatter by a closure that will be invoked to transform values
 	 *

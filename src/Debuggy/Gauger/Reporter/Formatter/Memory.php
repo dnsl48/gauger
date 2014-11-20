@@ -11,7 +11,7 @@ use Debuggy\Gauger\Reporter\Formatter;
 /**
  * Transforms number of bytes to human readable representation
  */
-class Memory extends Formatter {
+class Memory implements Formatter {
 	/**
 	 * Kibibyte
 	 */

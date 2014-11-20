@@ -12,7 +12,7 @@ use Debuggy\Gauger\Reporter\Formatter;
  * The gauge should be a count of microseconds.
  * Result will be seconds with microseconds (1.000006 equals 1 second and 6 microseconds)
  */
-class Microtime extends Formatter {
+class Microtime implements Formatter {
 	/**
 	 * Initializes precision for seconds
 	 *
