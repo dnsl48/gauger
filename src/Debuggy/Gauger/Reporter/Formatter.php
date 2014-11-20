@@ -5,8 +5,7 @@ namespace Debuggy\Gauger\Reporter;
 
 
 /**
- * GaugeHandler intended to format gauged values before putting them
- * into reports.
+ * Intended to format values before putting them into reports.
  */
 interface Formatter {
 	/**
