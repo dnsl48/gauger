@@ -36,7 +36,7 @@ To install the library with composer you should put the next code into your proj
 ```json
 {
 	"require-dev": {
-		"debuggy/gauger": "0.8"
+		"debuggy/gauger": "0.9"
 	}
 }
 ```
