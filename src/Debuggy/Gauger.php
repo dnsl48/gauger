@@ -23,7 +23,7 @@ abstract class Gauger {
 	/**
 	 * Default name for gaugers
 	 */
-	const DEFAULT_NAME = 'Unnamed Gauger';
+	const DEFAULT_NAME = 'Lorem';
 
 
 	/**
