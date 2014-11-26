@@ -12,7 +12,7 @@ use Debuggy\Gauger\Reporter\Formatter\Memory as MemoryFormatter;
  */
 class StretchMemoryAccumulator extends StretchAccumulator {
 	/** {@inheritdoc} */
-	protected function getGauge (array $details) {
+	protected function getGauge (array $extra) {
 		return memory_get_usage ();
 	}
 

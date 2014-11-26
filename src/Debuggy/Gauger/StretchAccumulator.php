@@ -19,14 +19,14 @@ use Debuggy\Gauger\Mark\Summary as SummaryMark;
  */
 abstract class StretchAccumulator extends Gauger {
 	/** {@inheritdoc} */
-	public function mark ($marker, $details = array ()) {
-		$this->_makeMark ($marker, $details);
+	public function mark ($marker, $extra = array ()) {
+		$this->_makeMark ($marker, $extra);
 	}
 
 
 	/** {@inheritdoc} */
-	public function stamp ($stamp, $marker, $details = array ()) {
-		$this->_makeMark ($marker, $details, $stamp);
+	public function stamp ($stamp, $marker, $extra = array ()) {
+		$this->_makeMark ($marker, $extra, $stamp);
 	}
 
 
@@ -34,7 +34,7 @@ abstract class StretchAccumulator extends Gauger {
 	public function reset () {
 		$this->_marks_storage = array ();
 		$this->_marks_order = array ();
-		$this->_marks_details = array ();
+		$this->_marks_extra = array ();
 	}
 
 
@@ -42,7 +42,7 @@ abstract class StretchAccumulator extends Gauger {
 	public function getMarks (array $sequentialFilters = array (), array $summaryFilters = array ()) {
 		$sequence = array ();
 		$summary = array ();
-		$tmpDetails = array ();
+		$tmpExtra = array ();
 
 		foreach ($this->_marks_order as $markerOrderIdx => $marker) {
 			if (!isset ($summary[$marker])) {
@@ -55,7 +55,7 @@ abstract class StretchAccumulator extends Gauger {
 			}
 
 			if ($summary[$marker]->count % 2) {
-				$tmpDetails[$marker] = isset ($this->_marks_details[$markerOrderIdx]) ? $this->_marks_details[$markerOrderIdx] : null;
+				$tmpExtra[$marker] = isset ($this->_marks_extra[$markerOrderIdx]) ? $this->_marks_extra[$markerOrderIdx] : null;
 				continue;
 			}
 
@@ -66,12 +66,12 @@ abstract class StretchAccumulator extends Gauger {
 			$mark->gauge = $markerStamps[1] - $markerStamps[0];
 			$mark->number = floor (($markerOrderIdx + 1) / 2);
 
-			if ($tmpDetails[$marker] || $this->_marks_details[$markerOrderIdx])
-				$mark->extra = array ('former' => $tmpDetails[$marker], 'latter' => $this->_marks_details[$markerOrderIdx]);
+			if ($tmpExtra[$marker] || $this->_marks_extra[$markerOrderIdx])
+				$mark->extra = array ('former' => $tmpExtra[$marker], 'latter' => $this->_marks_extra[$markerOrderIdx]);
 
 			$sequence[] = $mark;
 
-			unset ($tmpDetails[$marker]);
+			unset ($tmpExtra[$marker]);
 
 			$summary[$marker]->gauge += $markerStamps[1] - $markerStamps[0];
 		}
@@ -121,20 +121,20 @@ abstract class StretchAccumulator extends Gauger {
 	 * Makes mark's data and keep it in the object
 	 *
 	 * @param string $marker Marker name
-	 * @param array $details Extra data for that marker (optional)
+	 * @param array $extra Extra data for that marker (optional)
 	 * @param float $gauge Gauge to stamp
 	 *
 	 * @return void
 	 */
-	private function _makeMark ($marker, $details = array (), $gauge = null) {
+	private function _makeMark ($marker, $extra = array (), $gauge = null) {
 		// top stamp that does not have any method's overhead
-		$gauge = $gauge ? $gauge : $this->getGauge ($details);
+		$gauge = $gauge ? $gauge : $this->getGauge ($extra);
 
 		if (!isset ($this->_marks_storage[$marker]))
 			$this->_marks_storage[$marker] = array (array ());
 
 		$this->_marks_order[] = $marker;
-		$this->_marks_details[] = $details ? $details : null;
+		$this->_marks_extra[] = $extra ? $extra : null;
 
 		$idx = count ($this->_marks_storage[$marker]) - 1;
 
@@ -145,13 +145,13 @@ abstract class StretchAccumulator extends Gauger {
 				$mark = new SequentialMark;
 				$mark->marker = $marker;
 				$mark->gauge = $gauge - $this->_marks_storage[$marker][$idx][0];
-				$mark->extra = $details ? $details : null;
+				$mark->extra = $extra ? $extra : null;
 				$mark->number = $idx+1;
 
 				for ($i=0, $c=count($filters); $i < $c; ++$i) {
 					if (!$filters[$i]->checkSequential ($mark)) {
 						array_pop ($this->_marks_order);
-						array_pop ($this->_marks_details);
+						array_pop ($this->_marks_extra);
 						unset ($this->_marks_storage[$marker][$idx]);
 						break;
 					}
@@ -162,7 +162,7 @@ abstract class StretchAccumulator extends Gauger {
 			$this->_marks_storage[$marker][$idx+1][] = &$gauge;
 
 		// bottom stamp that does not have any method's overhead
-		$gauge = $gauge ? $gauge : $this->getGauge ($details);
+		$gauge = $gauge ? $gauge : $this->getGauge ($extra);
 	}
 
 
@@ -183,9 +183,9 @@ abstract class StretchAccumulator extends Gauger {
 
 
 	/**
-	 * Details of markers
+	 * Extra info of markers
 	 *
 	 * @var array
 	 */
-	private $_marks_details = array ();
+	private $_marks_extra = array ();
 }

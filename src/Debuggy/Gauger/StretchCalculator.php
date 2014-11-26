@@ -21,16 +21,16 @@ abstract class StretchCalculator extends Gauger {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function mark ($marker, $details = array ()) {
-		$this->_makeMark ($marker, $details);
+	public function mark ($marker, $extra = array ()) {
+		$this->_makeMark ($marker, $extra);
 	}
 
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function stamp ($stamp, $marker, $details = array ()) {
-		$this->_makeMark ($marker, $details, $stamp);
+	public function stamp ($stamp, $marker, $extra = array ()) {
+		$this->_makeMark ($marker, $extra, $stamp);
 	}
 
 
@@ -50,9 +50,9 @@ abstract class StretchCalculator extends Gauger {
 				array_combine (
 					array_map (
 						function ($key) {return $key + 1;},
-						array_keys ($this->_marks_details[$marker])
+						array_keys ($this->_marks_extra[$marker])
 					),
-					array_values ($this->_marks_details[$marker])
+					array_values ($this->_marks_extra[$marker])
 				),
 				function ($val) {return !is_null ($val);}
 			);
@@ -76,7 +76,7 @@ abstract class StretchCalculator extends Gauger {
 	public function reset () {
 		$this->_marks_storage = array ();
 		$this->_marks_count = array ();
-		$this->_marks_details = array ();
+		$this->_marks_extra = array ();
 	}
 
 
@@ -84,22 +84,22 @@ abstract class StretchCalculator extends Gauger {
 	 * Makes mark's data and keep it in the object
 	 *
 	 * @param string $marker Marker name
-	 * @param array $details Extra data for that marker (optional)
+	 * @param array $extra Extra data for that marker (optional)
 	 * @param float $gauge Gauge
 	 *
 	 * @return void
 	 */
-	private function _makeMark ($marker, $details = array (), $gauge = null) {
+	private function _makeMark ($marker, $extra = array (), $gauge = null) {
 		// top stamp that does not have any method's overhead
-		$gauge = $gauge ? $gauge : $this->getGauge ($details);
+		$gauge = $gauge ? $gauge : $this->getGauge ($extra);
 
 		if (!isset ($this->_marks_storage[$marker])) {
 			$this->_marks_storage[$marker] = array (0);
 			$this->_marks_count[$marker] = 1;
-			$this->_marks_details[$marker] = $details ? array ($details) : array (null);
+			$this->_marks_extra[$marker] = $extra ? array ($extra) : array (null);
 		} else {
 			++$this->_marks_count[$marker];
-			$this->_marks_details[$marker][] = $details ? $details : null;
+			$this->_marks_extra[$marker][] = $extra ? $extra : null;
 		}
 
 		if (isset ($this->_marks_storage[$marker][1])) {
@@ -111,7 +111,7 @@ abstract class StretchCalculator extends Gauger {
 				$mark = new SequentialMark;
 				$mark->marker = $marker;
 				$mark->gauge = $delta;
-				$mark->extra = $details ? $details : null;
+				$mark->extra = $extra ? $extra : null;
 				$mark->number = $this->_marks_count[$marker];
 
 				for ($i=0, $c=count($filters); $i < $c; ++$i) {
@@ -126,8 +126,8 @@ abstract class StretchCalculator extends Gauger {
 				$this->_marks_storage[$marker][0] += $delta;
 			else {
 				$this->_marks_count[$marker] -= 2;
-				array_pop ($this->_marks_details[$marker]);
-				array_pop ($this->_marks_details[$marker]);
+				array_pop ($this->_marks_extra[$marker]);
+				array_pop ($this->_marks_extra[$marker]);
 			}
 
 			unset ($this->_marks_storage[$marker][1]);
@@ -135,7 +135,7 @@ abstract class StretchCalculator extends Gauger {
 			$this->_marks_storage[$marker][1] = &$gauge;
 
 		// bottom stamp that does not have any method's overhead
-		$gauge = $gauge ? $gauge : $this->getGauge ($details);
+		$gauge = $gauge ? $gauge : $this->getGauge ($extra);
 	}
 
 
@@ -172,5 +172,5 @@ abstract class StretchCalculator extends Gauger {
 	 *
 	 * @var array
 	 */
-	private $_marks_details = array ();
+	private $_marks_extra = array ();
 }

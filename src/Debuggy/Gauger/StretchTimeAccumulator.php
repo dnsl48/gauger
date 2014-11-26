@@ -12,7 +12,7 @@ use Debuggy\Gauger\Reporter\Formatter\Microtime as MicrotimeFormatter;
  */
 class StretchTimeAccumulator extends StretchAccumulator {
 	/** {@inheritdoc} */
-	protected function getGauge (array $details) {
+	protected function getGauge (array $extra) {
 		return microtime (true);
 	}
 

@@ -24,10 +24,10 @@ class StretchClosureCalculator extends StretchCalculator {
 
 
 	/** {@inheritdoc} */
-	protected function getGauge (array $details) {
+	protected function getGauge (array $extra) {
 		$closure = $this->_closure;
 
-		return $closure ($details);
+		return $closure ($extra);
 	}
 
 

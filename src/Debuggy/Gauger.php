@@ -43,11 +43,11 @@ abstract class Gauger {
 	 * Makes new mark with marker
 	 *
 	 * @param string $marker Marker name
-	 * @param array $details Extra info about marker (optional)
+	 * @param array $extra Extra info about marker (optional)
 	 *
 	 * @return void
 	 */
-	abstract public function mark ($marker, $details = array ());
+	abstract public function mark ($marker, $extra = array ());
 
 
 	/**
@@ -55,21 +55,21 @@ abstract class Gauger {
 	 *
 	 * @param float $stamp Gauge to stamp
 	 * @param string $marker Marker name
-	 * @param array $details Extra info about marker (optional)
+	 * @param array $extra Extra info about marker (optional)
 	 *
 	 * @return void
 	 */
-	abstract public function stamp ($stamp, $marker, $details = array ());
+	abstract public function stamp ($stamp, $marker, $extra = array ());
 
 
 	/**
 	 * Makes new gauge and returns it
 	 *
-	 * @param array $details Marker details
+	 * @param array $extra Marker extra info
 	 *
 	 * @return mixed
 	 */
-	abstract protected function getGauge (array $details);
+	abstract protected function getGauge (array $extra);
 
 
 	/**
@@ -105,19 +105,19 @@ abstract class Gauger {
 
 	/**
 	 * Gauges the subject's evaluation.
-	 * If there is any exception, it will be kept in details of a fixed mark.
+	 * If there is any exception, it will be kept in extra of the fixed mark.
 	 * After it will be thrown forth.
 	 *
 	 * @param Closure $subject Subject to gauge
 	 * @param array $arguments Arguments for subject's invocation
 	 * @param string $marker Marker that denotes the subject
-	 * @param array $details Extra information about marker (optional)
+	 * @param array $extra Extra information about marker (optional)
 	 *
 	 * @return mixed Result of the subject's invocation
 	 *
 	 * @throws Exteption Any exception that is thrown by the subject
 	 */
-	public function gauge (Closure $subject, $arguments = array (), $marker, $details = array ()) {
+	public function gauge (Closure $subject, $arguments = array (), $marker, $extra = array ()) {
 		$markers = $this->getGaugeMarkers ($marker);
 
 		$empty = function () {};
@@ -142,17 +142,17 @@ abstract class Gauger {
 		} catch (Exception $e) {
 			$stampException = microtime (true) - $overhead;
 
-			$this->stamp ($stampBefore, $markers['before'], $details);
-			$details['exception'] = $e;
-			$this->stamp ($stampException, $markers['exception'], $details);
+			$this->stamp ($stampBefore, $markers['before'], $extra);
+			$extra['exception'] = $e;
+			$this->stamp ($stampException, $markers['exception'], $extra);
 
 			throw $e;
 		}
 
 		$stampAfter = microtime (true) - $overhead;
 
-		$this->stamp ($stampBefore, $markers['before'], $details);
-		$this->stamp ($stampAfter, $markers['after'], $details);
+		$this->stamp ($stampBefore, $markers['before'], $extra);
+		$this->stamp ($stampAfter, $markers['after'], $extra);
 
 		return $result;
 	}
