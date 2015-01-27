@@ -132,14 +132,14 @@ class Memory extends Formatter {
 				continue;
 
 			if ($this->_bcMath)
-				$calc = floor (bcdiv (strval ($value), $baseData['base']));
+				$calc = floor (bcdiv ((string) ($value), $baseData['base']));
 
 			else
 				$calc = floor ($value / $baseData['base']);
 
 			if ($calc) {
 				if ($this->_bcMath)
-					$value = bcmod (strval ($value), $baseData['base']);
+					$value = bcmod ((string) ($value), $baseData['base']);
 
 				else
 					$value = fmod ($value, $baseData['base']);

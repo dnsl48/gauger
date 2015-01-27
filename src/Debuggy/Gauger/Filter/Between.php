@@ -48,24 +48,24 @@ class Between extends Filter {
 
 		if (isset ($min)) {
 			if ($this->_bcMath)
-				$this->_min = strval ($min);
+				$this->_min = (string) ($min);
 
 			else if (is_int ($min))
 				$this->_min = $min;
 
 			else
-				$this->_min = floatval ($min);
+				$this->_min = (float) ($min);
 		}
 
 		if (isset ($max)) {
 			if ($this->_bcMath)
-				$this->_max = strval ($max);
+				$this->_max = (string) ($max);
 
 			else if (is_int ($max))
 				$this->_max = $max;
 
 			else
-				$this->_max = floatval ($max);
+				$this->_max = (float) ($max);
 		}
 	}
 
@@ -77,23 +77,23 @@ class Between extends Filter {
 
 		if (isset ($this->_min)) {
 			if ($this->_bcMath) {
-				if (bccomp ($this->_min, strval ($stamp->value), $this->_bcMathScale) > 0)
-					return boolval (false xor $this->_inversion);
+				if (bccomp ($this->_min, (string) ($stamp->value), $this->_bcMathScale) > 0)
+					return (bool) (false xor $this->_inversion);
 
 			} else if ($this->_min > $stamp->value)
-				return boolval (false xor $this->_inversion);
+				return (bool) (false xor $this->_inversion);
 		}
 
 		if (isset ($this->_max)) {
 			if ($this->_bcMath) {
-				if (bccomp (strval ($stamp->value), $this->_max, $this->_bcMathScale) > 0)
-					return boolval (false xor $this->_inversion);
+				if (bccomp ((string) ($stamp->value), $this->_max, $this->_bcMathScale) > 0)
+					return (bool) (false xor $this->_inversion);
 
 			} else if ($this->_max < $stamp->value)
-				return boolval (false xor $this->_inversion);
+				return (bool) (false xor $this->_inversion);
 		}
 
-		return boolval (true xor $this->_inversion);
+		return (bool) (true xor $this->_inversion);
 	}
 
 
