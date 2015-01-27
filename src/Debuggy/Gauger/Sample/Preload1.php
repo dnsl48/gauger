@@ -27,14 +27,14 @@ class Preload1 extends Sample1 {
 	 * @param array $otherValues List of additional values for other dials that is not a first one
 	 */
 	public function __construct (array $values, Closure $formatter = null, array $otherValues = array (), array $otherFormatters = array ()) {
-		parent::__construct ();
+		parent::__construct (new Gauge);
 
 		$count = count ($values);
 		$values = array_merge (array ($values), $otherValues);
 
 		$formatters = array_merge (array ($formatter), $otherFormatters);
 
-		$this->_gauge = new Gauge;
+		$gauge = $this->getGauge ();
 
 		for ($i = 0, $c = count ($values); $i < $c; ++$i) {
 			$indicator = new Indicator\Preload (array_map (function ($elem) {
@@ -43,10 +43,12 @@ class Preload1 extends Sample1 {
 
 			$count = min ($count, count ($values[$i]));
 
-			$this->_gauge->addDial (new Dial ($indicator));
+			$gauge->addDial (new Dial ($indicator));
 		}
 
 		for ($i = 0; $i < $count; ++$i)
-			$this->_gauge->stamp (isset ($values[0][$i][0]) && isset ($values[0][$i][1]) ? $values[0][$i][0] : 'preval');
+			$gauge->stamp (isset ($values[0][$i][0]) && isset ($values[0][$i][1]) ? $values[0][$i][0] : 'preval');
+
+		
 	}
 }

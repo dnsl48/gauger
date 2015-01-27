@@ -19,6 +19,7 @@ class Samples extends PHPUnit_Framework_TestCase {
 		$sample->getGauge ()->stamp ('test');
 
 		$res = $sample->toArray ();
+		$res = $res['Totals'];
 
 		$this->assertCount (1, $res);
 		$this->assertEquals ('test', $res[0][0]);
@@ -35,6 +36,7 @@ class Samples extends PHPUnit_Framework_TestCase {
 		$sample->getGauge ()->stamp ('test');
 
 		$res = $sample->toArray ();
+		$res = $res['Stretch'];
 
 		$this->assertCount (1, $res);
 		$this->assertEquals ('test', $res[0][0]);
@@ -51,6 +53,7 @@ class Samples extends PHPUnit_Framework_TestCase {
 		$sample->getGauge ()->stamp ('test');
 
 		$res = $sample->toArray ();
+		$res = $res['Plain'];
 
 		$this->assertCount (2, $res);
 		$this->assertEquals ('test', $res[0][0]);
@@ -65,6 +68,7 @@ class Samples extends PHPUnit_Framework_TestCase {
 		$sample = new Preload1 (array (1, 2), null, array (array (3, 4), array (5, 6)));
 
 		$res = $sample->toArray ();
+		$res = $res['Plain'];
 
 		$this->assertCount (2, $res);
 		$this->assertEquals ('preval', $res[0][0]);
@@ -79,6 +83,7 @@ class Samples extends PHPUnit_Framework_TestCase {
 		$sample = new Preload1 (array (array ('stamp1', 1), array ('stamp2', 2)), null, array (array (3, 4), array (5, 6)));
 
 		$res = $sample->toArray ();
+		$res = $res['Plain'];
 
 		$this->assertCount (2, $res);
 		$this->assertEquals ('stamp1', $res[0][0]);

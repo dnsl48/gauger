@@ -47,7 +47,7 @@ class Gauger {
 			throw new SampleUnknown ($className, 0, $e);
 		}
 
-		if (!$refl->implementsInterface ('\Debuggy\Gauger\Sample') || $refl->isAbstract () || $refl->isInterface ())
+		if (!$refl->isSubclassOf ('\Debuggy\Gauger\Sample') || $refl->isAbstract () || $refl->isInterface ())
 			throw new SampleUnknown ($className, 0);
 
 		try {

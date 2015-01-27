@@ -4,14 +4,12 @@
 namespace Debuggy\Gauger\Sample {
 	class _TestSample {}
 
-	abstract class _AbsTestSample implements \Debuggy\Gauger\Sample {}
+	abstract class _AbsTestSample extends \Debuggy\Gauger\Sample {}
 
-	interface _IntTestSample extends \Debuggy\Gauger\Sample {}
+	interface _IntTestSample {}
 
-	class _EmptyTestSample implements \Debuggy\Gauger\Sample {
-		public function getGauge () {}
-		public function toArray () {}
-		public function toString () {}
+	class _EmptyTestSample extends \Debuggy\Gauger\Sample {
+		public function toArray () {return array ();}
 	}
 }
 
