@@ -1,0 +1,71 @@
+@startuml
+!ifndef formatters_pu
+!define formatters_pu
+
+
+!include styles.pu
+!include formatter.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		namespace Formatter {
+			class Closure {
+				- $_closure : \Closure
+				+ __construct (\Closure $closure)
+			}
+
+			Closure --|> .Gauger._Formatter
+
+
+			class Memory {
+				+ {static} IEC : int = -256
+				+ {static} MET : int = 255
+
+				+ {static} KiB : int = -2
+				+ {static} KB : int = 1
+
+				+ {static} MiB : int = -3
+				+ {static} MB : int = 2
+
+				+ {static} GiB : int = -5
+				+ {static} GB : int = 4
+
+				+ {static} TiB : int = -9
+				+ {static} TB : int = 8
+
+				+ {static} PiB : int = -17
+				+ {static} PB : int = 16
+
+				+ {static} EiB : int = -33
+				+ {static} EB : int = 32
+
+				+ {static} ZiB : int = -65
+				+ {static} ZB : int = 64
+
+				+ {static} YiB : int = -129
+				+ {static} YB : int = 128
+
+				- $_multiples : int
+				- $_bcMath : bool
+				- $_bases : array = [...]
+
+				+ __construct (int|array $multiples = -256, bool $bcMath = null)
+			}
+
+			Memory --|> .Gauger._Formatter
+
+
+			class Time {
+				- $_precision : int
+				+ __construct (int $precision = 6)
+			}
+
+			Time --|> .Gauger._Formatter
+		}
+	}
+}
+
+!endif
+@enduml

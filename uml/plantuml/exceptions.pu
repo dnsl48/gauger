@@ -1,0 +1,24 @@
+@startuml
+!ifndef exceptions_pu
+!define exceptions_pu
+
+
+!include styles.pu
+!include exception.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		namespace Exception {
+			class SampleInit
+			class SampleUnknown
+
+			SampleInit ..|> .Gauger._Exception
+			SampleUnknown ..|> .Gauger._Exception
+		}
+	}
+}
+
+!endif
+@enduml

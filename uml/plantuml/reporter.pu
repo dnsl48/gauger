@@ -1,0 +1,22 @@
+@startuml
+!ifndef reporter_pu
+!define reporter_pu
+
+
+!include styles.pu
+!include refiner.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		interface "Reporter" as _Reporter {
+			+ recount (Refiner $refiner) : array
+		}
+
+		_Reporter ..> _Refiner
+	}
+}
+
+!endif
+@enduml

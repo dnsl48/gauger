@@ -1,0 +1,57 @@
+@startuml
+!ifndef refiners_pu
+!define refiners_pu
+
+
+!include styles.pu
+!include refiner.pu
+!include gauge.pu
+!include filter.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		namespace Refiner {
+			class Root {
+				- $_gauge : \Debuggy\Gauger\Gauge
+				+ __construct (\Debuggy\Gauger\Gauge )
+			}
+
+			Root o-- .Gauger.Gauge
+			Root --|> .Gauger._Refiner
+
+
+			class Cache {
+				- $_cache : array = []
+			}
+
+			Cache --|> .Gauger._Refiner
+
+
+			class Filter {
+				- $_filter : \Debuggy\Gauger\Filter
+				- $_thread : int
+				+ __construct (\Debuggy\Gauger\Refiner $refiner, \Debuggy\Gauger\Filter $filter, $thread = 0)
+			}
+
+			Filter o-- .Gauger._Filter
+			Filter --|> .Gauger._Refiner
+
+
+			class Stretch {
+				- _flattenTree (array $tree) : \Debuggy\Gauger\Stamp
+				- _calculateTree (array $tree, \Debuggy\Gauger\Indicator $indicator) : array
+				- _subtractTree (\Debuggy\Gauger\Stamp $stamp, array $tree, \Debuggy\Gauger\Indicator $indicator) : void
+				- _justifyTree (array $node, array $parent = null) : array
+				- _buildTree (Stamp[] $stamps) : array
+				- _parseId (string $stampId, int $offset = 0) : string[]
+			}
+
+			Stretch --|> .Gauger._Refiner
+		}
+	}
+}
+
+!endif
+@enduml

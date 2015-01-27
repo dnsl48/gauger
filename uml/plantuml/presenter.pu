@@ -1,0 +1,19 @@
+@startuml
+!ifndef presenter_pu
+!define presenter_pu
+
+
+!include styles.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		interface "Presenter" as _Presenter {
+			+ represent (array $data) : mixed
+		}
+	}
+}
+
+!endif
+@enduml

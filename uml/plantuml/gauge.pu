@@ -1,0 +1,27 @@
+@startuml
+!ifndef gauge_pu
+!define gauge_pu
+
+
+!include styles.pu
+!include dial.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		class Gauge {
+			- $_dials : Dial[]
+			+ stamp (string $id, mixed $extra = null) : void
+			+ erase (string $id) : void
+			+ addDial (Dial $dial) : void
+			+ getDials () : Dial[]
+			+ benchmark (\Closure $subject, string $stampId, mixed $extra = null, array $arguments = []) : mixed
+		}
+
+		Gauge o-- Dial
+	}
+}
+
+!endif
+@enduml

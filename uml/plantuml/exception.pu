@@ -1,0 +1,17 @@
+@startuml
+!ifndef exception_pu
+!define exception_pu
+
+
+!include styles.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		interface "Exception" as _Exception
+	}
+}
+
+!endif
+@enduml

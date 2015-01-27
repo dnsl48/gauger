@@ -1,0 +1,19 @@
+@startuml
+!ifndef formatter_pu
+!define formatter_pu
+
+
+!include styles.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		class "Formatter" as _Formatter {
+			+ format (mixed $value) : string
+		}
+	}
+}
+
+!endif
+@enduml

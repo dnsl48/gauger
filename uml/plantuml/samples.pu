@@ -1,0 +1,58 @@
+@startuml
+!ifndef samples_pu
+!define samples_pu
+
+
+!include styles.pu
+!include sample.pu
+!include indicators.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		namespace Sample {
+			class Totals {
+				- $_gauge : \Debuggy\Gauger\Gauge
+				+ __construct ()
+			}
+
+			Totals ..|> .Gauger._Sample
+			Totals ..> .Gauger.Indicator.TotalDuration
+			Totals ..> .Gauger.Indicator.MemoryPeak
+
+
+			class Sample1 {
+				- $_gauge : \Debuggy\Gauger\Gauge
+				+ __construct ()
+			}
+
+			Sample1 ..|> .Gauger._Sample
+			Sample1 ..> Totals
+			Sample1 ..> .Gauger.Indicator.Microtime
+			Sample1 ..> .Gauger.Indicator.MemoryUsage
+			Sample1 o-- .Gauger.Gauge
+
+
+			class Preload1 {
+				+ __construct (array $values, \Closure $formatter = null, array $otherValues = [], array $otherFormatters = [])
+			}
+
+			Preload1 --|> Sample1
+			Preload1 ..> .Gauger.Indicator.Preload
+
+
+			class Timer {
+				- $_gauge : \Debuggy\Gauger\Gauge
+				+ __construct ()
+			}
+
+			Timer ..|> .Gauger._Sample
+			Timer ..> .Gauger.Indicator.Microtime
+			Timer o-- .Gauger.Gauge
+		}
+	}
+}
+
+!endif
+@enduml

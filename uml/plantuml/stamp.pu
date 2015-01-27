@@ -1,0 +1,21 @@
+@startuml
+!ifndef stamp_pu
+!define stamp_pu
+
+
+!include styles.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		class Stamp {
+			+ $id : string
+			+ $value : mixed
+			+ extra : mixed
+		}
+	}
+}
+
+!endif
+@enduml

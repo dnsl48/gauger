@@ -1,0 +1,34 @@
+@startuml
+!ifndef presenters_pu
+!define presenters_pu
+
+
+!include styles.pu
+!include presenter.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		namespace Presenter {
+			class Txt {
+				- $_outputWidth : int
+				- $_border : string
+				- $_filler : string
+				+ __construct (int $outputWidth = 80, string $border = '*', string $filler = '.')
+				- _strlen (string $string) : int
+				- _space (string $value) : string
+				- _justify (string $string) : string
+				- _array (mixed $value, int $depth = 0) : string
+				- _wrap (string $string, int $width, string $break = PHP_EOL) : string
+				- _title (string $string, string $filler, int $strlen) : string
+				- _report (string $left, string $right, string  $filler, string $border, int $strlen) : string
+			}
+
+			Txt ..|> .Gauger._Presenter
+		}
+	}
+}
+
+!endif
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+!ifndef sample_pu
+!define sample_pu
+
+
+!include styles.pu
+!include gauge.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		interface "Sample" as _Sample {
+			+ getGauge () : Gauge
+			+ toArray () : array
+			+ toString () : string
+		}
+
+		_Sample --> Gauge
+	}
+}
+
+!endif
+@enduml
