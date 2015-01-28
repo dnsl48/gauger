@@ -29,7 +29,7 @@ class Gauge {
 					$this->_dials[$j]->erase ($id);
 
 				for ($j = $i + 1; $j < $c; ++$j)
-					$this->_dials[$j]->idle ();
+					$this->_dials[$j]->idle ($extra);
 
 				break;
 			}

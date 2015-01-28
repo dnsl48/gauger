@@ -10,7 +10,7 @@ namespace Debuggy\Gauger\Indicator;
  */
 class MemoryPeak extends Memory {
 	/** {@inheritdoc} */
-	public function gauge () {
+	public function gauge ($extra = null) {
 		return memory_get_peak_usage ();
 	}
 }

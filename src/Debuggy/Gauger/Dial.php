@@ -29,7 +29,7 @@ class Dial {
 		$stamp = new Stamp;
 
 		$stamp->id = $id;
-		$stamp->value = $this->getIndicator ()->gauge ();
+		$stamp->value = $this->getIndicator ()->gauge ($extra);
 		$stamp->extra = $extra;
 
 		if (($filter = $this->getFilter ()) && !$filter->checkStamp ($stamp))
@@ -44,10 +44,12 @@ class Dial {
 	/**
 	 * Makes an empty gauge
 	 *
+	 * @param mixed $extra Extra data provided by a user
+	 *
 	 * @return void
 	 */
-	public function idle () {
-		$this->getIndicator ()->idle ();
+	public function idle ($extra = null) {
+		$this->getIndicator ()->idle ($extra);
 	}
 
 

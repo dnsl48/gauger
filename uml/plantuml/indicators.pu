@@ -19,6 +19,17 @@ package Debuggy {
 			Closure --|> .Gauger._Indicator
 
 
+			class Extra {
+				- $_key : mixed
+				- $_sum : null|\Closure
+				- $_sub : null|\Closure
+				- $_avg : null|\Closure
+				+ __construct (mixed $key = null, \Debuggy\Gauger\Formatter $formatter = null, \Closure $sum = null, \Closure $sub = null, \Closure $avg = null)
+			}
+
+			Extra --|> .Gauger._Indicator
+
+
 			abstract class Memory
 
 			Memory --|> .Gauger._Indicator

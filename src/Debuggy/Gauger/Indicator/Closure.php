@@ -29,10 +29,10 @@ class Closure extends Indicator {
 
 
 	/** {@inheritdoc} */
-	public function gauge () {
+	public function gauge ($extra = null) {
 		$closure = $this->_indicator;
 
-		return $closure ();
+		return $closure ($extra);
 	}
 
 

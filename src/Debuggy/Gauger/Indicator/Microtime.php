@@ -27,7 +27,7 @@ class Microtime extends Indicator {
 	 *
 	 * @return float
 	 */
-	public function gauge () {
+	public function gauge ($extra = null) {
 		return microtime (true);
 	}
 }

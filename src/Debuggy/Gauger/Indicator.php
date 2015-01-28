@@ -19,6 +19,19 @@ abstract class Indicator {
 			$formatter = new Formatter;
 
 		$this->_formatter = $formatter;
+		$this->setName (substr (get_class ($this), ($pos = strrpos (get_class ($this), '\\')) + ($pos ? 1 : 0)));
+	}
+
+
+	/**
+	 * Sets name of the indicator
+	 *
+	 * @param string $name Name of the indicator
+	 *
+	 * @return void
+	 */
+	public function setName ($name) {
+		$this->_name = (string) $name;
 	}
 
 
@@ -28,7 +41,7 @@ abstract class Indicator {
 	 * @return string
 	 */
 	public function getName () {
-		return substr (get_class ($this), ($pos = strrpos (get_class ($this), '\\')) + ($pos ? 1 : 0));
+		return $this->_name;
 	}
 
 
@@ -104,17 +117,21 @@ abstract class Indicator {
 	/**
 	 * Should be called each time when the result of the indicator's gauge is not gonna be used
 	 *
+	 * @param mixed $extra Extra data provided by a user
+	 *
 	 * @return void
 	 */
-	public function idle () {}
+	public function idle ($extra = null) {}
 
 
 	/**
 	 * Returns the data, harvested by the indicator
 	 *
+	 * @param mixed $extra Extra data provided by a user
+	 *
 	 * @return mixed
 	 */
-	abstract public function gauge ();
+	abstract public function gauge ($extra = null);
 
 
 
@@ -124,4 +141,12 @@ abstract class Indicator {
 	 * @var Formatter
 	 */
 	private $_formatter;
+
+
+	/**
+	 * Indicator's name
+	 *
+	 * @var string
+	 */
+	private $_name;
 }

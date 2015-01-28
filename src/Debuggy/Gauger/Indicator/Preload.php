@@ -27,15 +27,15 @@ class Preload extends Indicator {
 
 
 	/** {@inheritdoc} */
-	public function gauge () {
+	public function gauge ($extra = null) {
 		list ($key, $val) = each ($this->_values);
 		return $val;
 	}
 
 
 	/** {@inheritdoc} */
-	public function idle () {
-		$this->gauge ();
+	public function idle ($extra = null) {
+		$this->gauge ($extra);
 	}
 
 

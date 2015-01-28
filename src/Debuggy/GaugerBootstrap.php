@@ -37,6 +37,7 @@ require_once __DIR__ . '/Gauger/Formatter/Memory.php';
 require_once __DIR__ . '/Gauger/Formatter/Time.php';
 
 require_once __DIR__ . '/Gauger/Indicator/Closure.php';
+require_once __DIR__ . '/Gauger/Indicator/Extra.php';
 require_once __DIR__ . '/Gauger/Indicator/Memory.php';
 require_once __DIR__ . '/Gauger/Indicator/MemoryPeak.php';
 require_once __DIR__ . '/Gauger/Indicator/MemoryUsage.php';

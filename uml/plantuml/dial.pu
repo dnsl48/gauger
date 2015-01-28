@@ -18,7 +18,7 @@ package Debuggy {
 			- $_indicator : Indicator
 			+ __construct (Indicator $indicator, Filter $filter = null)
 			+ stamp (string $id, mixed $extra = null) : bool
-			+ idle () : void
+			+ idle (mixed $extra = null) : void
 			+ erase (string $id) : void
 			+ getCollection () : Stamp[]
 			+ getFilter () : Filter

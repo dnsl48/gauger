@@ -9,7 +9,7 @@ use Debuggy\Gauger\Formatter;
 
 
 /**
- * Returns total duration of the script. Relies on _SERVER['REQUEST_TIME_FLOAT']
+ * Returns total duration of the script. Relies on the _SERVER['REQUEST_TIME_FLOAT']
  */
 class TotalDuration extends Microtime {
 	/** {@inheritdoc} */
@@ -28,7 +28,7 @@ class TotalDuration extends Microtime {
 
 
 	/** {@inheritdoc} */
-	public function gauge () {
+	public function gauge ($extra = null) {
 		return microtime (true) - $this->_timePoint;
 	}
 
