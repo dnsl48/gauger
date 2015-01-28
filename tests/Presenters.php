@@ -33,7 +33,7 @@ class Presenters extends PHPUnit_Framework_TestCase {
 				array ('ttl' => array (array ('mark', 'value'))),
 				'********* ttl **********' . PHP_EOL .
 				'* mark ......... value *' . PHP_EOL .
-				'************************' . PHP_EOL
+				'************************' . PHP_EOL . PHP_EOL
 			),
 
 
@@ -44,7 +44,7 @@ class Presenters extends PHPUnit_Framework_TestCase {
 				'* plain text much      *' . PHP_EOL .
 				'* longer than twenty   *' . PHP_EOL .
 				'* four symbols         *' . PHP_EOL .
-				'************************' . PHP_EOL
+				'************************' . PHP_EOL . PHP_EOL
 			),
 
 
@@ -60,7 +60,7 @@ class Presenters extends PHPUnit_Framework_TestCase {
 				array ('ttl' => array (array ('mark', array ('sub' => 'val')))),
 				'********* ttl **********' . PHP_EOL .
 				'* mark ...... sub: val *' . PHP_EOL .
-				'************************' . PHP_EOL
+				'************************' . PHP_EOL . PHP_EOL
 			),
 
 
@@ -73,7 +73,7 @@ class Presenters extends PHPUnit_Framework_TestCase {
 				'*                sub2:         *' . PHP_EOL .
 				'*                 key: value   *' . PHP_EOL .
 				'*                 key2: value2 *' . PHP_EOL .
-				'********************************' . PHP_EOL
+				'********************************' . PHP_EOL . PHP_EOL
 			),
 
 
@@ -92,7 +92,7 @@ class Presenters extends PHPUnit_Framework_TestCase {
 				'******* Long *******' . PHP_EOL .
 				'****** title *******' . PHP_EOL .
 				'* key ........ val *' . PHP_EOL .
-				'********************' . PHP_EOL
+				'********************' . PHP_EOL . PHP_EOL
 			),
 
 
@@ -102,7 +102,7 @@ class Presenters extends PHPUnit_Framework_TestCase {
 				'******* Long *******' . PHP_EOL .
 				'****** title *******' . PHP_EOL .
 				'* key ........ val *' . PHP_EOL .
-				'********************' . PHP_EOL
+				'********************' . PHP_EOL . PHP_EOL
 			),
 
 
@@ -114,7 +114,7 @@ class Presenters extends PHPUnit_Framework_TestCase {
 				'*  long                        *' . PHP_EOL .
 				'*  key                         *' . PHP_EOL .
 				'*  string .............. value *' . PHP_EOL .
-				'********************************' . PHP_EOL
+				'********************************' . PHP_EOL . PHP_EOL
 			)
 
 		);

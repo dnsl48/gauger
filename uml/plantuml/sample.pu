@@ -10,10 +10,12 @@
 
 package Debuggy {
 	namespace Gauger {
-		interface "Sample" as _Sample {
+		abstract class "Sample" as _Sample {
+			- $_gauge : Gauge
+			# __construct (Gauge $gauge)
 			+ getGauge () : Gauge
-			+ toArray () : array
 			+ toString () : string
+			+ {abstract} toArray () : array
 		}
 
 		_Sample --> Gauge

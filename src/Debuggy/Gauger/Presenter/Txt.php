@@ -62,7 +62,7 @@ class Txt implements Presenter {
 		$result = implode ('', $result);
 
 		if ($depth === 0)
-			$result .= $this->_title ('', $this->_border, $this->_outputWidth) . PHP_EOL;
+			$result .= $this->_title ('', $this->_border, $this->_outputWidth) . PHP_EOL . PHP_EOL;
 
 		return $result;
 	}

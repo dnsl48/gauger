@@ -13,7 +13,6 @@ package Debuggy {
 	namespace Gauger {
 		namespace Sample {
 			class Totals {
-				- $_gauge : \Debuggy\Gauger\Gauge
 				+ __construct ()
 			}
 
@@ -23,7 +22,6 @@ package Debuggy {
 
 
 			class Sample1 {
-				- $_gauge : \Debuggy\Gauger\Gauge
 				+ __construct ()
 			}
 
@@ -43,7 +41,6 @@ package Debuggy {
 
 
 			class Timer {
-				- $_gauge : \Debuggy\Gauger\Gauge
 				+ __construct ()
 			}
 
