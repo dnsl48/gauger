@@ -49,6 +49,11 @@ package Debuggy {
 			}
 
 			Stretch --|> .Gauger._Refiner
+
+
+			class Total
+
+			Total --|> .Gauger._Refiner
 		}
 	}
 }

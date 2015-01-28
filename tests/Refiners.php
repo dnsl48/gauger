@@ -9,6 +9,7 @@ use Debuggy\Gauger\Refiner\Cache;
 use Debuggy\Gauger\Refiner\Filter;
 use Debuggy\Gauger\Refiner\Root;
 use Debuggy\Gauger\Refiner\Stretch;
+use Debuggy\Gauger\Refiner\Total;
 
 
 
@@ -30,7 +31,11 @@ class Refiners extends PHPUnit_Framework_TestCase {
 	}
 
 
-	/** Tests the Cache refiner */
+	/**
+	 * Tests the Cache refiner
+	 *
+	 * @depends testRoot
+	 */
 	public function testCache () {
 		$cache = new Cache (new Root ($this->_gauge));
 
@@ -45,7 +50,11 @@ class Refiners extends PHPUnit_Framework_TestCase {
 	}
 
 
-	/** Tests the Filter refiner */
+	/**
+	 * Tests the Filter refiner
+	 *
+	 * @depends testRoot
+	 */
 	public function testFilter () {
 		$filter = new Filter (new Root ($this->_gauge), new Between (2, 3));
 
@@ -58,7 +67,11 @@ class Refiners extends PHPUnit_Framework_TestCase {
 	}
 
 
-	/** Tests the Stretch refiner */
+	/**
+	 * Tests the Stretch refiner
+	 *
+	 * @depends testRoot
+	 */
 	public function testStretch () {
 		$stretch = new Stretch (new Root ($this->_gauge));
 
@@ -130,6 +143,24 @@ class Refiners extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals ('total<-2->3', $stamps[0][2]->id);
 		$this->assertEquals (1, $stamps[0][2]->value);
+	}
+
+
+	/**
+	 * Tests the Total refiner
+	 *
+	 * @depends testRoot
+	 */
+	public function testTotal () {
+		$total = new Total (new Root ($this->_gauge));
+
+		$stamps = $total->getStamps ();
+
+		$this->assertCount (1, $stamps);
+		$this->assertCount (1, $stamps[0]);
+
+		$this->assertEquals ('one', $stamps[0][0]->id);
+		$this->assertEquals (10, $stamps[0][0]->value);
 	}
 
 

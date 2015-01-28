@@ -16,7 +16,7 @@ package Debuggy {
 				+ __construct ()
 			}
 
-			Totals ..|> .Gauger._Sample
+			Totals --|> .Gauger._Sample
 			Totals ..> .Gauger.Indicator.TotalDuration
 			Totals ..> .Gauger.Indicator.MemoryPeak
 
@@ -25,7 +25,7 @@ package Debuggy {
 				+ __construct ()
 			}
 
-			Sample1 ..|> .Gauger._Sample
+			Sample1 --|> .Gauger._Sample
 			Sample1 ..> Totals
 			Sample1 ..> .Gauger.Indicator.Microtime
 			Sample1 ..> .Gauger.Indicator.MemoryUsage
@@ -41,10 +41,15 @@ package Debuggy {
 
 
 			class Timer {
-				+ __construct ()
+				- $_min : float
+				- $_max : float
+				- $_totalMin : float
+				- $_totalMax : float
+				+ __construct (float $min = null, float $max = null, float $totalMin = null, float $totalMax = null)
+				- _filter (\Debuggy\Gauger\Refiner $refiner) : \Debuggy\Gauger\Refiner
 			}
 
-			Timer ..|> .Gauger._Sample
+			Timer --|> .Gauger._Sample
 			Timer ..> .Gauger.Indicator.Microtime
 			Timer o-- .Gauger.Gauge
 		}

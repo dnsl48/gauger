@@ -50,6 +50,7 @@ require_once __DIR__ . '/Gauger/Refiner/Cache.php';
 require_once __DIR__ . '/Gauger/Refiner/Filter.php';
 require_once __DIR__ . '/Gauger/Refiner/Root.php';
 require_once __DIR__ . '/Gauger/Refiner/Stretch.php';
+require_once __DIR__ . '/Gauger/Refiner/Total.php';
 
 require_once __DIR__ . '/Gauger/Reporter/Plain.php';
 require_once __DIR__ . '/Gauger/Reporter/Summary.php';

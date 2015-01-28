@@ -32,7 +32,7 @@ namespace {
 		 * @expectedException Debuggy\Gauger\Exception\SampleUnknown
 		 */
 		public function testUnknownSample () {
-			_Gauger::getSample ('key');
+			_Gauger::getSample (__FUNCTION__);
 		}
 
 
@@ -42,7 +42,7 @@ namespace {
 		 * @expectedException Debuggy\Gauger\Exception\SampleUnknown
 		 */
 		public function testUnknownSample2 () {
-			_Gauger::getSample ('key', '_TestSample', array ('some data'));
+			_Gauger::getSample (__FUNCTION__, '_TestSample', array ('some data'));
 		}
 
 
@@ -52,7 +52,7 @@ namespace {
 		 * @expectedException Debuggy\Gauger\Exception\SampleUnknown
 		 */
 		public function testUnknownSample3 () {
-			_Gauger::getSample ('key', '_AbsTestSample', array ('some data'));
+			_Gauger::getSample (__FUNCTION__, '_AbsTestSample', array ('some data'));
 		}
 
 
@@ -62,7 +62,7 @@ namespace {
 		 * @expectedException Debuggy\Gauger\Exception\SampleUnknown
 		 */
 		public function testUnknownSample4 () {
-			_Gauger::getSample ('key', '_IntTestSample', array ('some data'));
+			_Gauger::getSample (__FUNCTION__, '_IntTestSample', array ('some data'));
 		}
 
 
@@ -72,17 +72,16 @@ namespace {
 		 * @expectedException Debuggy\Gauger\Exception\SampleInit
 		 */
 		public function testInitSampleError () {
-			_Gauger::getSample ('key', '_EmptyTestSample', array ('some data'));
+			_Gauger::getSample (__FUNCTION__, '_EmptyTestSample', array ('some data'));
 		}
-
 
 		/** Tests how does the Gauger keeps a sample */
 		public function testKeepSample () {
 			$sample = new Timer;
 
-			_Gauger::getSample ('key', $sample);
+			_Gauger::getSample (__FUNCTION__, $sample);
 
-			$this->assertSame ($sample, _Gauger::getSample ('key'));
+			$this->assertSame ($sample, _Gauger::getSample (__FUNCTION__));
 		}
 
 
@@ -90,10 +89,10 @@ namespace {
 		public function testKeepSample2 () {
 			$sample = new Timer (2);
 
-			_Gauger::getSample ('key', 'Timer', array (2));
+			_Gauger::getSample (__FUNCTION__, 'Timer', array (2));
 
-			$this->assertEquals ($sample, _Gauger::getSample ('key'));
-			$this->assertNotSame ($sample, _Gauger::getSample ('key'));
+			$this->assertEquals ($sample, _Gauger::getSample (__FUNCTION__));
+			$this->assertNotSame ($sample, _Gauger::getSample (__FUNCTION__));
 		}
 	}
 

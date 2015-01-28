@@ -30,8 +30,7 @@ class Samples extends PHPUnit_Framework_TestCase {
 
 	/** Tests the Timer doesn't make exceptions */
 	public function testTimer () {
-		$sample = new Timer;
-
+		$sample = new Timer (0.0000001);
 		$sample->getGauge ()->stamp ('test');
 		$sample->getGauge ()->stamp ('test');
 
@@ -42,6 +41,19 @@ class Samples extends PHPUnit_Framework_TestCase {
 		$this->assertEquals ('test', $res[0][0]);
 
 		$this->assertTrue (strlen ($sample->toString ()) > 0);
+
+
+		$sample2 = new Timer (null, null, 0.0000001);
+		$sample2->getGauge ()->stamp ('test');
+		$sample2->getGauge ()->stamp ('test');
+
+		$res = $sample2->toArray ();
+		$res = $res['Stretch'];
+
+		$this->assertCount (1, $res);
+		$this->assertEquals ('test', $res[0][0]);
+
+		$this->assertTrue (strlen ($sample2->toString ()) > 0);
 	}
 
 
