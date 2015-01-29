@@ -29,16 +29,12 @@ class Summary implements Reporter {
 						'cnt' => 0,
 						'sum' => null,
 						'avg' => null,
-						'xtr' => array (),
 						'vls' => array ()
 					);
 				}
 
 				++$result[$stamps[$t][$i]->id]['cnt'];
 				$result[$stamps[$t][$i]->id]['vls'][] = $stamps[$t][$i]->value;
-
-				if ($stamps[$t][$i]->extra)
-					$result[$stamps[$t][$i]->id]['xtr'][$result[$stamps[$t][$i]->id]['cnt']] = $stamps[$t][$i]->extra;
 			}
 
 			foreach ($result as $stampId => $stampData) {
@@ -49,9 +45,6 @@ class Summary implements Reporter {
 				$result[$stampId]['avg'] = $indicators[$t]->avg ($result[$stampId]['vls']);
 
 				unset ($result[$stampId]['vls']);
-
-				if (!$stampData['xtr'])
-					unset ($result[$stampId]['xtr']);
 			}
 
 			$summary[] = $result;
@@ -62,9 +55,18 @@ class Summary implements Reporter {
 		$result = array ();
 
 		for ($t = 0, $c = count ($summary); $t < $c; ++$t) {
+			$formatter = $indicators[$t]->getFormatter ();
 			foreach ($summary[$t] as $stampId => $data) {
-				$data['sum'] = $indicators[$t]->getFormatter ()->format ($data['sum']);
-				$data['avg'] = $indicators[$t]->getFormatter ()->format ($data['avg']);
+				if (!$formatter->isVisible ($data['sum']) && !$formatter->isVisible ($data['avg']))
+					continue;
+
+				$row = array ('cnt' => $data['cnt']);
+
+				if ($formatter->isVisible ($data['sum']))
+					$row['sum'] = $formatter->format ($data['sum']);
+
+				if ($formatter->isVisible ($data['avg']))
+					$row['avg'] = $formatter->format ($data['avg']);
 
 				$iname = $indicators[$t]->getName ();
 				$idx = -1;
@@ -77,16 +79,16 @@ class Summary implements Reporter {
 				}
 
 				if ($idx === -1)
-					$result[] = array ($stampId, array ($iname => $data));
+					$result[] = array ($stampId, array ($iname => $row));
 
 				else if (!isset ($result[$idx][1][$iname]))
-					$result[$idx][1][$iname] = $data;
+					$result[$idx][1][$iname] = $row;
 
 				else if (isset ($result[$idx][1][$iname]['sum']))
-					$result[$idx][1][$iname] = array ($result[$idx][1][$iname], $data);
+					$result[$idx][1][$iname] = array ($result[$idx][1][$iname], $row);
 
 				else
-					$result[$idx][1][$iname][] = $data;
+					$result[$idx][1][$iname][] = $row;
 			}
 		}
 

@@ -17,9 +17,27 @@ class Formatter {
 	 * @return string
 	 */
 	public function format ($value) {
-		if (is_scalar ($value))
+		if (is_bool ($value))
+			return $value ? "true" : "false";
+
+		else if (is_scalar ($value))
 			return (string) $value;
 
-		return print_r ($value, true);
+		foreach ($value as $key => $val)
+			$value[$key] = $this->format ($val);
+
+		return $value;
+	}
+
+
+	/**
+	 * Checks whether the value should be showed
+	 *
+	 * @param mixed $value Value to be checked
+	 *
+	 * @return bool
+	 */
+	public function isVisible ($value) {
+		return isset ($value);
 	}
 }

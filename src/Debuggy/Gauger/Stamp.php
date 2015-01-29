@@ -22,12 +22,4 @@ class Stamp {
 	 * @var mixed
 	 */
 	public $value;
-
-
-	/**
-	 * May contain some supplementary information, provided by a user
-	 *
-	 * @var mixed
-	 */
-	public $extra;
 }

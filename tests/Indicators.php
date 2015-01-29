@@ -46,14 +46,14 @@ class Indicators extends PHPUnit_Framework_TestCase {
 		$this->assertEquals (6, $ind3->avg (array (1, 2, 6, 3, 4)));
 
 
-		$this->assertEquals (array ('f' => 1, 'l' => 2), $ind1->sub ("1", "2"));
+		$this->assertSame (array ("2", "1"), $ind1->sub ("1", "2"));
 		$this->assertEquals (42, $ind1->sub (46, 4));
 		$this->assertNull ($ind1->sub (null, null));
 
 
 		$this->assertNull ($ind1->sum (null, null));
-		$this->assertEquals (array (1), $ind1->sum (null, 1));
-		$this->assertEquals (array (1), $ind1->sum (1, null));
+		$this->assertEquals (1, $ind1->sum (null, 1));
+		$this->assertEquals (1, $ind1->sum (1, null));
 		$this->assertEquals (2, $ind1->sum (1, 1));
 		$this->assertEquals (array ("1", "1"), $ind1->sum ("1", "1"));
 		$this->assertEquals (array (1), $ind1->sum (null, array (1)));
@@ -61,6 +61,9 @@ class Indicators extends PHPUnit_Framework_TestCase {
 		$this->assertEquals (array (1, 2), $ind1->sum (array (1), array (2)));
 		$this->assertEquals (array (array ('key' => 'val'), array (1, 2)), $ind1->sum (array ('key' => 'val'), array (1, 2)));
 		$this->assertEquals (array (1, 2, array ('key' => 'val')), $ind1->sum (array (1, 2), array ('key' => 'val')));
+		$this->assertEquals (array ('key1' => 1, 'key2' => 2), $ind1->sum (array ('key1' => 1), array ('key2' => 2)));
+		$this->assertEquals (array (array ('key1' => 1), array ('key1' => 2)), $ind1->sum (array ('key1' => 1), array ('key1' => 2)));
+		$this->assertEquals (array (1, 2), $ind1->sum (array (1), 2));
 	}
 
 

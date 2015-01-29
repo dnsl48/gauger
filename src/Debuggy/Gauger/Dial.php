@@ -30,7 +30,6 @@ class Dial {
 
 		$stamp->id = $id;
 		$stamp->value = $this->getIndicator ()->gauge ($extra);
-		$stamp->extra = $extra;
 
 		if (($filter = $this->getFilter ()) && !$filter->checkStamp ($stamp))
 			return false;

@@ -17,15 +17,6 @@ use Debuggy\Gauger\Sample;
  * This sample contains total time and memory peak usage of the script
  */
 class Totals extends Sample {
-	public function __construct () {
-		parent::__construct (new Gauge);
-
-		$gauge = $this->getGauge ();
-		$gauge->addDial (new Dial (new Indicator\TotalDuration));
-		$gauge->addDial (new Dial (new Indicator\MemoryPeak));
-	}
-
-
 	/** {@inheritdoc} */
 	public function toArray () {
 		$gauge = $this->getGauge ();
@@ -33,6 +24,14 @@ class Totals extends Sample {
 		$refiner = new Refiner\Root ($gauge);
 		$reporter = new Reporter\Plain;
 
-		return array ('Totals' => $reporter->recount ($refiner));
+		return array ('Totally' => $reporter->recount ($refiner));
+	}
+
+
+	/** {@inheritdoc} */
+	protected function initGauge (Gauge $gauge) {
+		$gauge->addDial (new Dial (new Indicator\TotalDuration));
+		$gauge->addDial (new Dial (new Indicator\MemoryPeak));
+		$gauge->addDial (new Dial (new Indicator\Extra));
 	}
 }

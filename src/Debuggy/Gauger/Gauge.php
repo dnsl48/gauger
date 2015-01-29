@@ -5,7 +5,6 @@ namespace Debuggy\Gauger;
 
 
 use Closure;
-use Exception as BaseException;
 
 
 
@@ -69,37 +68,6 @@ class Gauge {
 	 */
 	public function getDials () {
 		return $this->_dials;
-	}
-
-
-	/**
-	 * Benchmarks the subject's evaluation.
-	 * If there is any exception, it will be kept in the details of a stamp and thrown forth.
-	 *
-	 * @param Closure $subject Subject to be benchmarked
-	 * @param string $stampId Identifier for the stamps
-	 * @param mixed $extra Extra data provided by users
-	 * @param array $arguments Arguments for a subject's invocation
-	 *
-	 * @return mixed Result of the subject's invocation
-	 *
-	 * @throws Exteption Any exception that is thrown by the subject
-	 */
-	public function benchmark (Closure $subject, $stampId, $extra = null, $arguments = array ()) {
-		$this->stamp ($stampId, $extra);
-
-		try {
-			$result = call_user_func_array ($subject, $arguments);
-
-		} catch (BaseException $e) {
-			$this->stamp ($stampId, array ('exception' => $e));
-
-			throw $e;
-		}
-
-		$this->stamp ($stampId);
-
-		return $result;
 	}
 
 

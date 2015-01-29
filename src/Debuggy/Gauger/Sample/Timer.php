@@ -28,14 +28,12 @@ class Timer extends Sample {
 	 * @param float $totalMax Maximal time interval for a stamp's total
 	 */
 	public function __construct ($min = null, $max = null, $totalMin = null, $totalMax = null) {
-		parent::__construct (new Gauge);
+		parent::__construct ();
 
 		$this->_min = $min;
 		$this->_max = $max;
 		$this->_totalMin = $totalMin;
 		$this->_totalMax = $totalMax;
-
-		$this->getGauge ()->addDial (new Dial (new Indicator\Microtime));
 	}
 
 
@@ -50,9 +48,16 @@ class Timer extends Sample {
 		$summaryReporter = new Reporter\Summary;
 
 		return array (
-			'Stretch' => $plainReporter->recount ($refiner),
+			'Stretchy' => $plainReporter->recount ($refiner),
 			'Summary' => $summaryReporter->recount ($refiner)
 		);
+	}
+
+
+	/** {@inheritdoc} */
+	protected function initGauge (Gauge $gauge) {
+		$gauge->addDial (new Dial (new Indicator\Microtime));
+		$gauge->addDial (new Dial (new Indicator\Extra));
 	}
 
 

@@ -32,6 +32,9 @@ class Plain implements Reporter {
 				if (!isset ($stamps[$t][$i]))
 					continue;
 
+				if (!$indicators[$t]->getFormatter ()->isVisible ($stamps[$t][$i]->value))
+					continue;
+
 				if (isset ($data[$i][0]) && $stamps[$t][$i]->id !== $data[$i][0])
 					continue; // unsynchronized thread! TODO: Maybe exception would be better here
 
@@ -44,8 +47,6 @@ class Plain implements Reporter {
 				$iname = $indicators[$t]->getName ();
 
 				$stampData = array ('val' => $indicators[$t]->getFormatter ()->format ($stamps[$t][$i]->value));
-				if (isset ($stamps[$t][$i]->extra))
-					$stampData['ext'] = $stamps[$t][$i]->extra;
 
 				if (!isset ($data[$i][1][$iname]))
 					$data[$i][1][$iname] = $stampData;

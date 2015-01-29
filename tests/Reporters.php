@@ -4,6 +4,7 @@
 use Debuggy\Gauger\Dial;
 use Debuggy\Gauger\Gauge;
 use Debuggy\Gauger\Indicator\Preload;
+use Debuggy\Gauger\Indicator\Extra;
 use Debuggy\Gauger\Refiner\Root;
 use Debuggy\Gauger\Reporter\Plain;
 use Debuggy\Gauger\Reporter\Summary;
@@ -145,5 +146,45 @@ class Reporters extends PHPUnit_Framework_TestCase {
 			$this->assertEquals ($i ? 23 : 19, $result[$i][1][$iname][2]['sum']);
 			$this->assertEquals ($i ? 11.5 : 9.5, $result[$i][1][$iname][2]['avg']);
 		}
+	}
+
+
+	/** Tests the Summary visibility of invisible values */
+	public function testSummaryVisibility () {
+		$gauge = new Gauge;
+		$gauge->addDial (new Dial (new Extra));
+
+		$gauge->stamp ('stamp', null);
+		$gauge->stamp ('stamp', null);
+
+		$reporter = new Summary;
+
+		$this->assertCount (0, $reporter->recount (new Root ($gauge)));
+
+
+		$gauge = new Gauge;
+		$gauge->addDial (new Dial (new Extra (null, null, function () {return 42;})));
+
+		$gauge->stamp ('stamp', null);
+		$gauge->stamp ('stamp', null);
+
+		$reporter = new Summary;
+		$result = $reporter->recount (new Root ($gauge));
+
+		$this->assertCount (1, $result);
+		$this->assertSame (array ('cnt' => 2, 'sum' => '42'), $result[0][1]['Extra']);
+
+
+		$gauge = new Gauge;
+		$gauge->addDial (new Dial (new Extra (null, null, null, null, function () {return 42;})));
+
+		$gauge->stamp ('stamp', null);
+		$gauge->stamp ('stamp', null);
+
+		$reporter = new Summary;
+		$result = $reporter->recount (new Root ($gauge));
+
+		$this->assertCount (1, $result);
+		$this->assertSame (array ('cnt' => 2, 'avg' => '42'), $result[0][1]['Extra']);
 	}
 }

@@ -13,6 +13,8 @@ package Debuggy {
 		abstract class "Sample" as _Sample {
 			- $_gauge : Gauge
 			# __construct (Gauge $gauge)
+			+ gauge (string $id, mixed $extra = null) : void
+			+ benchmark (\Closure $subject, string $stampId, mixed $extra = null, array $arguments = []) : mixed
 			+ getGauge () : Gauge
 			+ toString () : string
 			+ {abstract} toArray () : array

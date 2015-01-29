@@ -17,7 +17,7 @@ class Formatters extends PHPUnit_Framework_TestCase {
 		$formatter = new Formatter;
 
 		$this->assertSame ("1", $formatter->format (1));
-		$this->assertEquals (print_r (array (2), true), $formatter->format (array (2)));
+		$this->assertSame (array ("2"), $formatter->format (array (2)));
 	}
 
 

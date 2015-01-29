@@ -18,18 +18,6 @@ use Debuggy\Gauger\Sample;
  * Report in three parts: all stamps, stretches between stamps and the summary of stretches.
  */
 class Sample1 extends Sample {
-	/**
-	 * Initializes the sample with a new gauge
-	 */
-	public function __construct () {
-		parent::__construct (new Gauge);
-
-		$gauge = $this->getGauge ();
-		$gauge->addDial (new Dial (new Indicator\Microtime));
-		$gauge->addDial (new Dial (new Indicator\MemoryUsage));
-	}
-
-
 	/** {@inheritdoc} */
 	public function toArray () {
 		$gauge = $this->getGauge ();
@@ -44,9 +32,17 @@ class Sample1 extends Sample {
 		$totals->getGauge ()->stamp ('Sample1');
 
 		return array_merge (array (
-			'Plain' => $plainReporter->recount ($rootRefiner),
-			'Stretch' => $plainReporter->recount ($stretchRefiner),
+			'Plainy' => $plainReporter->recount ($rootRefiner),
+			'Stretchy' => $plainReporter->recount ($stretchRefiner),
 			'Summary' => $summaryReporter->recount ($stretchRefiner),
 		), $totals->toArray ());
+	}
+
+
+	/** {@inheritdoc} */
+	protected function initGauge (Gauge $gauge) {
+		$gauge->addDial (new Dial (new Indicator\Microtime));
+		$gauge->addDial (new Dial (new Indicator\MemoryUsage));
+		$gauge->addDial (new Dial (new Indicator\Extra));
 	}
 }

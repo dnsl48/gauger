@@ -82,17 +82,6 @@ class Stretch extends Refiner {
 					$stamp->id = $ptr[$i]['fst']->id;
 					$stamp->value = $indicator->sub ($ptr[$i]['snd']->value, $ptr[$i]['fst']->value);
 
-					$extra = array ();
-
-					if (isset ($ptr[$i]['fst']->extra))
-						$extra['fst'] = $ptr[$i]['fst']->extra;
-
-					if (isset ($ptr[$i]['snd']->extra))
-						$extra['snd'] = $ptr[$i]['snd']->extra;
-
-					if ($extra)
-						$stamp = $extra;
-
 					$tree[$key][$i]['val'] = $stamp;
 				}
 

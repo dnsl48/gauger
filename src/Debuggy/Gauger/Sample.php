@@ -6,6 +6,9 @@ namespace Debuggy\Gauger;
 
 use Debuggy\Gauger\Presenter\Txt;
 
+use Closure;
+use Exception as BaseException;
+
 
 
 /**
@@ -18,8 +21,57 @@ abstract class Sample {
 	 *
 	 * @param Gauge $gauge Gauge instance
 	 */
-	protected function __construct (Gauge $gauge) {
+	public function __construct (Gauge $gauge = null) {
+		if (!isset ($gauge))
+			$gauge = new Gauge;
+
 		$this->_gauge = $gauge;
+
+		$this->initGauge ($this->_gauge);
+	}
+
+
+	/**
+	 * Calls a gauge's method with the same name
+	 *
+	 * @param string $id Stamp identifier
+	 * @param mixed $extra Extra data provided by a user
+	 *
+	 * @return void
+	 */
+	public function stamp ($id, $extra = null) {
+		$this->getGauge ()->stamp ($id, $extra);
+	}
+
+
+	/**
+	 * Benchmarks the subject's evaluation.
+	 * If there is any exception, it will be kept in the details of a stamp and thrown forth.
+	 *
+	 * @param Closure $subject Subject to be benchmarked
+	 * @param string $stampId Identifier for the stamps
+	 * @param mixed $extra Extra data provided by users
+	 * @param array $arguments Arguments for a subject's invocation
+	 *
+	 * @return mixed Result of the subject's invocation
+	 *
+	 * @throws Exteption Any exception that is thrown by the subject
+	 */
+	public function benchmark (Closure $subject, $stampId, $extra = null, $arguments = array ()) {
+		$this->stamp ($stampId, $extra);
+
+		try {
+			$result = call_user_func_array ($subject, $arguments);
+
+		} catch (BaseException $e) {
+			$this->stamp ($stampId, array ('exception' => $e));
+
+			throw $e;
+		}
+
+		$this->stamp ($stampId);
+
+		return $result;
 	}
 
 
@@ -51,6 +103,16 @@ abstract class Sample {
 	 * @return array
 	 */
 	abstract public function toArray ();
+
+
+	/**
+	 * Initializes the $gauge by dials
+	 *
+	 * @param Gauge $gauge Gauge to be initialized by dials
+	 *
+	 * @return void
+	 */
+	protected function initGauge (Gauge $gauge) {}
 
 
 

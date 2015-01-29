@@ -12,7 +12,6 @@ package Debuggy {
 		class Stamp {
 			+ $id : string
 			+ $value : mixed
-			+ extra : mixed
 		}
 	}
 }

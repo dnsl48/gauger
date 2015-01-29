@@ -13,7 +13,6 @@ require_once __DIR__ . '/Gauger/Sample.php';
 require_once __DIR__ . '/Gauger/Stamp.php';
 
 require_once __DIR__ . '/Gauger/Exception/SampleUnknown.php';
-require_once __DIR__ . '/Gauger/Exception/SampleInit.php';
 
 require_once __DIR__ . '/Gauger/Filter/AndFilters.php';
 require_once __DIR__ . '/Gauger/Filter/Between.php';

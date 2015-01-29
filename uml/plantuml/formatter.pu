@@ -11,6 +11,7 @@ package Debuggy {
 	namespace Gauger {
 		class "Formatter" as _Formatter {
 			+ format (mixed $value) : string
+			+ isVisible (mixed $value) : bool
 		}
 	}
 }

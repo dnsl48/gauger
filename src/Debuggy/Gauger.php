@@ -5,7 +5,6 @@ namespace Debuggy;
 
 
 use Debuggy\Gauger\Exception\SampleUnknown;
-use Debuggy\Gauger\Exception\SampleInit;
 use Debuggy\Gauger\Sample;
 
 use ReflectionClass;
@@ -29,7 +28,6 @@ class Gauger {
 	 * @return Sample
 	 *
 	 * @throws SampleUnknown if the second argument is a name of an unknown sample
-	 * @throws SampleInit if the sample class doesn't have any arguments and the third argument isn't empty or if the sample throws this exception
 	 */
 	public static function getSample ($key, $sample = null, array $constructionData = array ()) {
 		if (isset (self::$_samples[$key]))
@@ -50,12 +48,7 @@ class Gauger {
 		if (!$refl->isSubclassOf ('\Debuggy\Gauger\Sample') || $refl->isAbstract () || $refl->isInterface ())
 			throw new SampleUnknown ($className, 0);
 
-		try {
-			return self::$_samples[$key] = $refl->newInstanceArgs ($constructionData);
-
-		} catch (ReflectionException $e) {
-			throw new SampleInit ($className, 0, $e);
-		}
+		return self::$_samples[$key] = $refl->newInstanceArgs ($constructionData);
 	}
 
 

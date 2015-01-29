@@ -7,10 +7,6 @@ namespace Debuggy\Gauger\Sample {
 	abstract class _AbsTestSample extends \Debuggy\Gauger\Sample {}
 
 	interface _IntTestSample {}
-
-	class _EmptyTestSample extends \Debuggy\Gauger\Sample {
-		public function toArray () {return array ();}
-	}
 }
 
 
@@ -65,15 +61,6 @@ namespace {
 			_Gauger::getSample (__FUNCTION__, '_IntTestSample', array ('some data'));
 		}
 
-
-		/**
-		 * Tests trying to pass construction parameters into a sample without a constructor
-		 *
-		 * @expectedException Debuggy\Gauger\Exception\SampleInit
-		 */
-		public function testInitSampleError () {
-			_Gauger::getSample (__FUNCTION__, '_EmptyTestSample', array ('some data'));
-		}
 
 		/** Tests how does the Gauger keeps a sample */
 		public function testKeepSample () {

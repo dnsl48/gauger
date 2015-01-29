@@ -16,7 +16,6 @@ package Debuggy {
 			+ erase (string $id) : void
 			+ addDial (Dial $dial) : void
 			+ getDials () : Dial[]
-			+ benchmark (\Closure $subject, string $stampId, mixed $extra = null, array $arguments = []) : mixed
 		}
 
 		Gauge o-- Dial

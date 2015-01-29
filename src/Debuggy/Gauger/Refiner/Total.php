@@ -29,8 +29,6 @@ class Total extends Refiner {
 
 					$stamp->id = $stamps[$t][$i]->id;
 					$stamp->value = $stamps[$t][$i]->value;
-					if (isset ($stamps[$t][$i]->extra))
-						$stamp->extra = array ((string) $i => $stamps[$t][$i]->extra);
 
 					$map[$stamp->id] = $stamp;
 					$result[$t][] = $stamp;
@@ -40,9 +38,6 @@ class Total extends Refiner {
 						$map[$stamps[$t][$i]->id]->value,
 						$stamps[$t][$i]->value
 					);
-
-					if (isset ($stamps[$t][$i]->extra))
-						$map[$stamps[$t][$i]->id]->extra[(string) $i] = $stamps[$t][$i]->extra;
 				}
 			}
 		}

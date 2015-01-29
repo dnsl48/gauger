@@ -50,43 +50,10 @@ class Extra extends Indicator {
 		if ($this->_sum)
 			return call_user_func ($this->_sum, $former, $latter);
 
-		if (is_array ($former) && !is_array ($latter)) {
-			if (isset ($latter))
-				$former[] = $latter;
+		if ((is_int ($former) && is_int ($latter)) || (is_float ($former) && is_float ($latter)))
+			return $former + $latter;
 
-			return $former;
-
-		} else if (is_array ($former) && is_array ($latter)) {
-			if (!isset ($former[0]))
-				return array ($former, $latter);
-
-			else if (!isset ($latter[0])) {
-				$former[] = $latter;
-				return $former;
-
-			} else
-				return array_merge ($former, $latter);
-
-		} else if (!isset ($former) && is_array ($latter)) {
-			return $latter;
-
-		} else if (!isset ($former) && !isset ($latter)) {
-			return null;
-
-		} else {
-			if ((is_int ($former) && is_int ($latter)) || (is_float ($former) && is_float ($latter)))
-				return $former + $latter;
-
-			$result = array ();
-
-			if (isset ($former))
-				$result[] = $former;
-
-			if (isset ($latter))
-				$result[] = $latter;
-
-			return $result ? $result : null;
-		}
+		return $this->_merge ($former, $latter);
 	}
 
 
@@ -98,15 +65,7 @@ class Extra extends Indicator {
 		if ((is_int ($former) && is_int ($latter)) || (is_float ($former) && is_float ($latter)))
 			return $former - $latter;
 
-		$r = array ();
-
-		if (isset ($former))
-			$r['f'] = $former;
-
-		if (isset ($latter))
-			$r['l'] = $latter;
-
-		return $r ? $r : null;
+		return $this->_merge ($latter, $former);
 	}
 
 
@@ -130,6 +89,54 @@ class Extra extends Indicator {
 		}
 
 		return null;
+	}
+
+
+	/**
+	 * Merges two values
+	 *
+	 * @param mixed $former Former parameter
+	 * @param mixed $latter Latter parameter
+	 *
+	 * @return mixed
+	 */
+	private function _merge ($former, $latter) {
+		if (isset ($former) xor isset ($latter))
+			return isset ($former) ? $former : $latter;
+
+		if (!isset ($former) && !isset ($latter))
+			return null;
+
+		if (is_array ($former) && is_array ($latter)) {
+			$formerIsAssoc = array_sum (array_map (function ($k) {return !is_numeric ($k);}, array_keys ($former)));
+			$latterIsAssoc = array_sum (array_map (function ($k) {return !is_numeric ($k);}, array_keys ($latter)));
+
+			if ($formerIsAssoc && $latterIsAssoc) {
+				if (!array_intersect_key ($former, $latter))
+					return $former + $latter;
+				else
+					return array ($former, $latter);
+
+			} else if (!$formerIsAssoc && $latterIsAssoc) {
+				$former[] = $latter;
+				return $former;
+
+			} else if ($formerIsAssoc && !$latterIsAssoc)
+				return array ($former, $latter);
+
+			else
+				return array_merge ($former, $latter);
+		}
+
+		if (is_array ($former) && !is_array ($latter)) {
+			if (isset ($latter))
+				$former[] = $latter;
+
+			return $former;
+
+		}
+
+		return array ($former, $latter);
 	}
 
 
