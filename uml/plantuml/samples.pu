@@ -12,18 +12,14 @@
 package Debuggy {
 	namespace Gauger {
 		namespace Sample {
-			class Totals {
-				+ __construct ()
-			}
+			class Totals
 
 			Totals --|> .Gauger._Sample
 			Totals ..> .Gauger.Indicator.TotalDuration
 			Totals ..> .Gauger.Indicator.MemoryPeak
 
 
-			class Sample1 {
-				+ __construct ()
-			}
+			class Sample1
 
 			Sample1 --|> .Gauger._Sample
 			Sample1 ..> Totals

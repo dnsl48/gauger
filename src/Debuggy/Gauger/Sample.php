@@ -112,7 +112,7 @@ abstract class Sample {
 	 *
 	 * @return void
 	 */
-	protected function initGauge (Gauge $gauge) {}
+	abstract protected function initGauge (Gauge $gauge);
 
 
 

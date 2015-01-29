@@ -25,6 +25,7 @@ package Debuggy {
 				- $_sub : null|\Closure
 				- $_avg : null|\Closure
 				+ __construct (mixed $key = null, \Debuggy\Gauger\Formatter $formatter = null, \Closure $sum = null, \Closure $sub = null, \Closure $avg = null)
+				- _megre (mixed $former, mixed $latter) : mixed
 			}
 
 			Extra --|> .Gauger._Indicator
