@@ -52,12 +52,13 @@ abstract class Sample {
 	 * @param string $stampId Identifier for the stamps
 	 * @param mixed $extra Extra data provided by users
 	 * @param array $arguments Arguments for a subject's invocation
+	 * @param bool $rememberResult Whether result of the subject should be kept as extra
 	 *
 	 * @return mixed Result of the subject's invocation
 	 *
 	 * @throws Exteption Any exception that is thrown by the subject
 	 */
-	public function benchmark (Closure $subject, $stampId, $extra = null, $arguments = array ()) {
+	public function benchmark (Closure $subject, $stampId, $extra = null, $arguments = array (), $rememberResult = false) {
 		$this->stamp ($stampId, $extra);
 
 		try {
@@ -69,7 +70,7 @@ abstract class Sample {
 			throw $e;
 		}
 
-		$this->stamp ($stampId);
+		$this->stamp ($stampId, $rememberResult ? array ('result' => $result) : null);
 
 		return $result;
 	}
