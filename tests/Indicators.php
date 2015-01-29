@@ -110,6 +110,10 @@ class Indicators extends PHPUnit_Framework_TestCase {
 		$ind3 = new TotalDuration;
 
 		$this->assertTrue (is_numeric ($ind3->gauge ()));
+
+		$ind4 = new TotalDuration (microtime (true));
+
+		$this->assertTrue (is_numeric ($ind4->gauge ()));
 	}
 
 

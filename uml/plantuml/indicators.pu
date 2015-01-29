@@ -53,6 +53,7 @@ package Debuggy {
 
 			class TotalDuration {
 				- $_timePoint : float
+				+ __construct  (float $time = null, \Debuggy\Gauger\Formatter $formatter = null)
 			}
 
 			TotalDuration --|> Microtime

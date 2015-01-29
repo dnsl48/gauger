@@ -41,7 +41,7 @@ class Sample1 extends Sample {
 
 	/** {@inheritdoc} */
 	protected function initGauge (Gauge $gauge) {
-		$gauge->addDial (new Dial (new Indicator\Microtime));
+		$gauge->addDial (new Dial (new Indicator\TotalDuration));
 		$gauge->addDial (new Dial (new Indicator\MemoryUsage));
 		$gauge->addDial (new Dial (new Indicator\Extra));
 	}

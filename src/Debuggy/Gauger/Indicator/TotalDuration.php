@@ -13,10 +13,13 @@ use Debuggy\Gauger\Formatter;
  */
 class TotalDuration extends Microtime {
 	/** {@inheritdoc} */
-	public function __construct (Formatter $formatter = null) {
+	public function __construct ($time = null, Formatter $formatter = null) {
 		parent::__construct ($formatter);
 
-		if (isset ($_SERVER['REQUEST_TIME_FLOAT']))
+		if (isset ($time))
+			$this->_timePoint = (float) $time;
+
+		else if (isset ($_SERVER['REQUEST_TIME_FLOAT']))
 			$this->_timePoint = $_SERVER['REQUEST_TIME_FLOAT'];
 
 		else if (isset ($_SERVER['REQUEST_TIME']))
