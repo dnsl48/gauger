@@ -1,4 +1,4 @@
-# The Gauger
+# Gauger
 
 #### [![Build Status](https://travis-ci.org/dnsl48/gauger.svg?branch=master)](https://travis-ci.org/dnsl48/Gauger)  [![Coverage Status](https://img.shields.io/coveralls/dnsl48/Gauger.svg)](https://coveralls.io/r/dnsl48/Gauger?branch=master) [![License](https://poser.pugx.org/debuggy/gauger/license.svg)](https://packagist.org/packages/debuggy/gauger)
 
@@ -7,13 +7,16 @@ Supported versions of PHP: 5.3, 5.4, 5.5, 5.6 and hhvm
 License: `Apache License, Version 2.0`
 
 
-#### What is the Gauger?
-The Gauger is a highly extensible and comprehensive tool for a handy profiling PHP scripts and applications.
+
+#### What is Gauger?
+Gauger is a highly extensible and comprehensive tool for a handy profiling PHP scripts and applications.
+
 
 
 #### Goals of the project
 The main goal of the project is to provide flexible and powerful abilities for profiling any data throughout an application. 
-Moreover, a visual representation of the harvested data is quite important as well as the minimal amount of the boilerplate.
+Moreover, a visual representation of harvested data is quite important as well as the minimal amount of boilerplate.
+
 
 
 # Contents
@@ -30,7 +33,7 @@ Moreover, a visual representation of the harvested data is quite important as we
  4. [Documentation](#documentation)  
  4.1. [Comments in the source code](#comments in the source code)  
  4.2. [UML](#uml)  
- 4.3. [This Readme](#this-readme)  
+ 4.3. [This file](#this-file)  
  4.3.1 [Totals](#totals)  
  4.3.2 [Timer](#timer)  
  4.3.3 [Extra data](#extra-data)  
@@ -41,32 +44,40 @@ Moreover, a visual representation of the harvested data is quite important as we
  4.3.8 [What is next?](#what-is-next)  
 
 
+
 ## Features
 
+
+
 #### Built-in
- * Indicators for measuring an elapsed time
+ * Indicators for measuring elapsed time
 ([Microtime](src/Debuggy/Gauger/Indicator/Microtime.php), [TotalDuration](src/Debuggy/Gauger/Indicator/TotalDuration.php))
  * Indicators for measuring memory usage
 ([MemoryUsage](src/Debuggy/Gauger/Indicator/MemoryUsage.php), [MemoryPeak](src/Debuggy/Gauger/Indicator/MemoryPeak.php))
  * Ability to combine any indicators together for harvesting them at the same time
- * Calculation of a summary info about subsections of any depth including averages and totals
+ * Calculation of summary info about harvested data
+
+
 
 #### Effortless
- * Profiling without a headache about exceptions handling ([Stamp::benchmark](src/Debuggy/Gauger/Gauge.php#L88))
- * Make new indicators either through closures or extending the abstract Indicator ([Closure](src/Debuggy/Gauger/Indicator/Closure.php), [Indicator](src/Debuggy/Gauger/Indicator.php))
- * Shortcuts for the most frequent cases ([Samples](src/Debuggy/Gauger/Sample))
- * Static access to a profiler from any place of an application ([Gauger::getSample](src/Debuggy/Gauger.php#L34))
+ * Profiling without a headache about exceptions handling ([Sample::benchmark](src/Debuggy/Gauger/Sample.php#L47))
+ * Make new indicators on the fly through closures ([Closure](src/Debuggy/Gauger/Indicator/Closure.php))
+ * Shortcuts for the most frequent use cases ([Samples](#this-file))
+ * Static access to profilers from any place of an application ([Gauger::getSample](#this-file))
+
+
 
 #### Flexible
  * Data produced by indicators can be of any complex type as well as of any scalar type
- * Any user-defined custom data can be kept while harvesting indicators ([Indicator\Extra](src/Debuggy/Gauger/Indicator/Extra.php))
+ * Any user-defined custom data can be kept while profiling ([Indicator\Extra](#extra-data))
  * The most critical code can be profiled without any overhead (see [Profiling without any overhead](#profiling-without-any-overhead))
- * Refine the harvested data for taking only the most interesting parts of it in the report
+ * Refine the harvested data for having only the most interesting parts in the report
+
 
 
 ## Examples
 
-There are several examples of the library usage in this readme. Here is the list with links and short descriptions of them:
+There are several examples of the library usage in this file. Here is their list with links and short descriptions:
 
  * [How to get a total duration and memory usage of an application](#totals)
  * [Timer in use](#timer)
@@ -75,23 +86,27 @@ There are several examples of the library usage in this readme. Here is the list
  * [How to deal with code folding, requests to databases or external servers](#subsections)
  * [How to refine harvested data; custom usage of the library's API](#refine-data)
 
+
+
 ## Installation
 
-There are three possible ways of the Gauger installation.
+There are three possible ways to install the library.
+
 
 
 #### Bootstrap
 
-The easiest way is to include the library's bootstrap file `GaugerBootstrap.php` which will include the other files of the project. 
-It allows to play with the tool without an effort of the installation.
+The easiest way is to include the project's bootstrap file `GaugerBootstrap.php` which will include the other parts of the library.
 
 ```php
 include $PATH_TO_THE_GAUGER.'/src/Debuggy/GaugerBootstrap.php';
 ```
 
+
+
 #### Composer
 
-To install the library with the Composer put the next code into your composer.json:
+To install the library with Composer put the next code into your composer.json:
 
 ```json
 {
@@ -100,7 +115,8 @@ To install the library with the Composer put the next code into your composer.js
 	}
 }
 ```
-For more information about the Composer look at its official site: <https://getcomposer.org>
+For more information about Composer visit its official site: <https://getcomposer.org>
+
 
 
 #### PSR-4, manual installation
@@ -112,7 +128,8 @@ The library's package name (root namespace) is `Debuggy` which is in the directo
 
 ## Documentation
 
-There are three pieces of documentation.
+There are three kinds of the project's documentation.
+
 
 
 #### Comments in the source code
@@ -121,40 +138,44 @@ If you decide to fiddle with the library it'll be quite helpful to read the comm
 The main goal of these is one could understood the behaviour and implications of an entity by only reading its API and comments.
 
 
+
 #### UML
 
-All entities of the project are described with the PlantUML. These files are stored in the `uml/plantuml` directory. 
-PlantUML is an Open-Source UML generator. For more information visit its site: <http://plantuml.com>
+All entities of the project are described with PlantUML. These files are in the `uml/plantuml` directory. 
+PlantUML is an Open-Source UML generator. For more information visit its official site: <http://plantuml.com>
 
 
-#### This Readme
 
-The most essential concepts are explained here. These help to look at the tool from the top and begin to use it immediately.
+#### This file
+
+The most essential concepts are explained here. It helps to look at the tool from the top and to start using it almost immediately.
 
 Here is the list of the top layer entities:
 
- * `Gauger` : A static storage for samples
- * `Sample` : A shortcut for a use case (e.g., the sample `Timer` provides microtime profiling)
- * `Gauge` : A profiler entity; provides ability to gather several indicators together
- * `Dial` : Contains an Indicator and optionally its Filter, collects stamps of indicator's data
- * `Stamp` : [Business-Object](http://en.wikipedia.org/wiki/Business_object) that contains some data and its identifier
+ * `Sample` : A shortcut for a use case (e.g., the sample `Timer` provides time profiling)
+ * `Gauger` : A static storage for samples' instances
+ * `Gauge` : Provides ability to gather several indicators together
+ * `Dial` : Contains an Indicator and optionally its Filter; collects stamps
+ * `Stamp` : [Business-Object](http://en.wikipedia.org/wiki/Business_object) that contains harvested data and its identifier
  * `Indicator` : Produces profiling data
- * `Filter` : Filters the produced data by some user defined criteria
- * `Formatter` : Converts data produced by the indicators into a string representation
+ * `Filter` : Filters stamps by some criteria
+ * `Formatter` : Converts data produced by indicators to a string representation
 
-Although [there is a diagram of these](uml/plantuml/gauger.png), for start using the library we have to deal with the first two entities only.
-As mentioned, the samples are shortcuts for some use cases. It means that as long as we have a classic scenario, we only have to choose one of the samples and use it.
+Although there is a [diagram](uml/plantuml/gauger.png) of these entities, for start using the library we have to deal with the first two ones only.
+As mentioned, samples are shortcuts for some use cases. It means that as long as we have a classic scenario, we only have to choose one of the samples and use it.
 
 
 There are four built-in samples:
  * `Timer` : Shows microtime intervals that parts of code between stamps have taken
  * `Totals` : Shows application total duration and its memory peak usage
  * `Sample1` : Provides microtime and memory profiling
- * `Preload1` : Shows arrays of data as if they were harvested as stamps
+ * `Preload1` : Shows custom data as if it was harvested as stamps
 
 
-Gauger is a static storage for samples, so that we can obtain them from every place of our code just calling its method `getSample`.
-The first argument is a user-defined unique key for the sample throughout an application, whereas the second is its classname and has to be passed only once for each key.
+The `Gauger` is the static storage for samples, so that we can obtain them from every place of our code just calling its method `getSample`.
+The first argument is a user-defined unique key for the sample throughout an application, whereas the second is a sample's classname and has to be passed only once for each key.
+
+
 
 ##### Totals
 
@@ -166,7 +187,7 @@ $totals->stamp ('Any name for the stamp');
 echo $totals->toString ();
 ```
 
-The result is gonna look like this:
+The result might look like this:
 
 ```
 *********************************** Totally ************************************
@@ -175,8 +196,9 @@ The result is gonna look like this:
 ********************************************************************************
 ```
 
-On the left side of the report we see the name of the stamp "Any name for the stamp". It's always the same identifier we pass in the method `stamp`.
-On the right side we see info about two indicators: `TotalDuration` and `MemoryPeak`.
+On the left side of the report we can see the name of the stamp "Any name for the stamp". It's always the same identifier we pass in the method `stamp`.
+On the right side we can see two indicators: `TotalDuration` and `MemoryPeak`.
+
 
 
 ##### Timer
@@ -199,7 +221,7 @@ foreach ([1, 2, 3] as $i) {
 echo $timer->toString ();
 ```
 
-The result is gonna look like this:
+The result might look like this:
 
 ```
 *********************************** Stretchy ***********************************
@@ -223,20 +245,21 @@ The result is gonna look like this:
 ********************************************************************************
 ```
 
-We have two parts of the report. The first part is called `Stretchy` and it contains info about stretches.
-A stretch is a part of code enclosed between two stamps. If we look at our example source code we'll see
+Here we have two parts of the report. The first one is called `Stretchy` and contains info about stretches.
+A stretch is a part of code enclosed between two stamps. If we look at our example source we'll see
 that there are two stretches: `md5` and `sha1`. Each of them is a loop and is harvested three times.  
-The part `Summary` shows us calculated summary for each stamp:
+The second part is called `Summary` and shows us calculated summary for each stamp:
  * `cnt` count of the stretches of the stamp
  * `sum` sum of all values of the stamp
  * `avg` average value of the stamp
 
 
+
 ##### Extra data
 
-Each sample contains an indicator that is invisible in simple cases. However it'll be shown if we pass
+Each built-in sample contains an indicator that is invisible by default. However it'll be shown if we pass
 some extra data while making stamps. The indicator is called `Extra` and its only assignment is to keep any
-user-provided extra data that could be passed as the second argument in the method `stamp`.
+user-provided extra data that can be passed as the second argument in the method `stamp`.
 
 Let's take a look at the next example:
 
@@ -286,21 +309,21 @@ The result shows us all unpredictable values:
 ```
 
 
-##### Profiling without any overhead
 
+##### Profiling without any overhead
 
 There are two indicators to do profiling without the library's overhead: `Extra` and `Preload`.
 The easiest way is to use the sample `Preload1` because it contains most of the boilerplate we need.
-Although it has almost all we need, it still would be nice to choose the data representation format.
+However, even though it has almost all we need, it still might be necessary to choose some data representation format.
 
 There are four built-in formatters:
- * `Debuggy\Gauger\Formatter`: Default formatter that just converts values into strings
- * `Debuggy\Gauger\Formatter\Closure`: Provides possibility to make a custom formatter through a closure
- * `Debuggy\Gauger\Formatter\Memory`: Converts a number of bytes into either the [IEC](http://en.wikipedia.org/wiki/Binary_prefix#IEC_prefixes) (by default) or a metric representation
- * `Debuggy\Gauger\Formatter\Time`: Converts a float number (seconds with microseconds) into a number of days with a time and a microtime (6 digits by default)
+ * `Formatter`: Default formatter that just converts values into strings
+ * `Closure`: Applies a custom closure to values as a formatter
+ * `Memory`: Converts a number of bytes into the [IEC](http://en.wikipedia.org/wiki/Binary_prefix#IEC_prefixes) (by default) representation
+ * `Time`: Converts a float into a number of days with a time and a microtime
 
-The method `Gauger::getSample` takes the third argument as a list of arguments for the Sample constructor. In the next example we will initialize the sample with
-the list of data for the stamps and the `Time` formatter:
+The method `Gauger::getSample` takes the third argument as a list of arguments for a sample's constructor.  
+In the next example we will initialize the sample with custom data:
 
 
 ```php
@@ -313,7 +336,7 @@ foreach ([1, 2, 3] as $i) {
 	sha1 ('zzz');
 	$c = microtime (true);
 
-	$stamps[] = ['md5', $a]; // the first is a name of a stamp, whereas the second is its value
+	$stamps[] = ['md5', $a]; // [stamp name (optional) => value]
 	$stamps[] = ['md5', $b];
 	$stamps[] = ['sha1', $b];
 	$stamps[] = ['sha1', $c];
@@ -371,9 +394,10 @@ The result is gonna be something like that:
 ```
 
 
+
 ##### Subsections
 
-Sometimes we have some sections of the source code that are folded into each other. It would be handy if we could
+Sometimes we have some sections of the source code that are folded into each other. It might be handy if we could
 profile those sections separately. There are two common cases how we want to do that: sometimes it is better to have
 info about inner sections subtracted from info about outer ones, whereas occasionally they shouldn't be split.
 
@@ -406,7 +430,7 @@ $timer->stamp ('tough method');
 echo $timer->toString ();
 ```
 
-The result will show us something like this:
+The result will be something like that:
 
 ```
 *********************************** Stretchy ***********************************
@@ -417,22 +441,24 @@ The result will show us something like this:
 ********************************************************************************
 ```
 
-Here we can see that the time of the method itself is only 0.1 second whereas the ->rpc part, that includes
+Here we can see that the time of the method itself is only 0.1 second, whereas the rpc part, that includes
 opening and closing sockets with an authorization and a query, takes the whole 3 seconds.
+
 
 
 ##### Postpone a report
 
 Sometimes we don't want to see the report immediately. In these cases we could save sample's data somewhere and
-show it later. All samples make it possible through the method `Sample::toArray`. This method returns a php native
+show it later. All samples make it possible through the method `Sample::toArray`. This method returns a php
 array that could be serialized and stored as a string (e.g., in a database). Later, when we want to look at the
-report we could take this array and use the method `Presenter\Txt::represent`: this is exactly what does the method `Sample::toString`.
+report we could take this array and use the method `Presenter\Txt::represent`: this is exactly what the method `Sample::toString` does.
+
 
 
 ##### Refine data
 
-The only one sample implies possibility to filter data: it's `Timer`. You can pass minimal and maximal values for stretches or even whole stamps
-(totals of all stretches) in the constructor. However, when it comes to data refining there are few predictable cases we can manage in the samples.  
+The only one sample implies possibility of filtering data: `Timer`. You can pass minimal and maximal values for stretches or their totals in the constructor.
+However, when it comes to data refining there are quite few predictable cases we can manage in the samples.  
 If you want to do your own refining of the data, you mostly have to make your own sample or just use all the parts of the library
 straightforwardly. There are several places in the project you should look at in these cases:
 
@@ -442,7 +468,7 @@ straightforwardly. There are several places in the project you should look at in
 * `Reporter` : Merges arrays of stamps of several indicators into a single array
 * `Presenter` : Converts an array produced by a reporter into a human readable representation
 
-As we can see, there are two places where we can filter stamps: `Dial` and `Refiner`. Lets take a look at the example of these components usage:
+As we can see, there are two ways how we can filter stamps: `Dial` and `Refiner`. Lets take a look at the example of these components usage:
 
 ```php
 use Debuggy\Gauger\Dial;
@@ -455,16 +481,18 @@ use Debuggy\Gauger\Refiner;
 use Debuggy\Gauger\Reporter;
 
 
-$gauge = new Gauge; // if any dial does not pass its value to gauge, the whole stamp will be omitted
+$gauge = new Gauge; 
 
 $gauge->addDial (new Dial (
 	new Indicator\Extra (
-		'keep?', // will try to get only values from this key of an array passed as an extra
-		new Formatter\Stash // formatter Stash allows us to conceal this indicator from the report
+		'keep?', // get only values from this key of an array passed as an extra
+		new Formatter\Stash // Stash conceals the indicator from the reporter
 	),
-	new Filter\Equal (true) // this filter will be applied for each single stamp while a harvest
+	new Filter\Equal (true) // filter will be applied for each single stamp
 ));
-$gauge->addDial (new Dial (new Indicator\Extra ('value'))); // here we will keep our values
+
+// if any dial does not pass its value to gauge, the whole stamp will be omitted
+$gauge->addDial (new Dial (new Indicator\Extra ('value'))); // for keeping our values
 
 foreach (range (0, 11) as $i)
 	$gauge->stamp ('evens', ['value' => $i, 'keep?' => ($i % 2 === 0)]);
@@ -474,7 +502,7 @@ foreach (range (0, 11) as $i)
 $refiner = new Refiner\Root ($gauge); 
 $refiner = new Refiner\Filter (
 	$refiner, // all other refiners take another refiner into a constructor
-	new Filter\Between (1, 9) // this filter will be applied to the whole bunch of harvested stamps
+	new Filter\Between (1, 9) // will be applied to the eventual bunch of stamps
 ); 
 
 
@@ -484,12 +512,16 @@ $reporter = new Reporter\Plain;
 // The report as an array
 $dataAsArray = $reporter->recount ($refiner);
 
+/* Let's add a title to our report */
+$dataAsArray = array ('Our title' => $dataAsArray)
+
+
 // Txt presenter makes a fancy text from an array
 $presenter = new Presenter\Txt;
-echo $presenter->represent (array ('Our title' => $dataAsArray));
+echo $presenter->represent ($dataAsArray);
 ```
 
-The result is going to look like this:
+The result might look like that:
 
 
 ```
@@ -502,14 +534,16 @@ The result is going to look like this:
 ```
 
 
+
 ##### What is next?
 
 If you want to have something more complex than the samples can do, you're welcome to look at the library sources.
 A very good place to begin is the samples. They are not only shortcuts but the samples how you can use the API of the library.
 
-Please feel free to make pull-requests or issues if you know any ways to improve the library or this readme (e.g., if you
-see any grammatical errors or can suggest any new sections of the documentation).
+Please feel free to make pull-requests or issues if you know any ways to improve the library or this file (e.g., if you
+see any grammatical errors or can suggest any new sections for the documentation).
 
-Moreover, you can find the UML diagrams of the project in the directory `uml`. A good one to start with is the diagram of the top level entities (gauger.pu):
+Moreover, you can find the UML diagrams of the project in the directory `uml`. A good one to start with is the diagram of the top level entities: [gauger.pu](uml/plantuml/gauger.png)
 
-![gauger.pu](uml/plantuml/gauger.png)
+
+That's all. Good luck and have fun!
