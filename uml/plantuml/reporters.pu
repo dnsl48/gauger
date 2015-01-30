@@ -1,0 +1,27 @@
+@startuml
+!ifndef reporters_pu
+!define reporters_pu
+
+
+!include styles.pu
+!include reporter.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		namespace Reporter {
+			class Plain
+
+			Plain ..|> .Gauger._Reporter
+
+
+			class Summary
+
+			Summary ..|> .Gauger._Reporter
+		}
+	}
+}
+
+!endif
+@enduml

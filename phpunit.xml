@@ -2,9 +2,16 @@
 <phpunit bootstrap="src/Debuggy/GaugerBootstrap.php">
 	<testsuites>
 		<testsuite name="generic">
-			<file>tests/GaugerTest.php</file>
-			<file>tests/FilterTest.php</file>
-			<file>tests/ReporterTest.php</file>
+			<file>tests/Filters.php</file>
+			<file>tests/Formatters.php</file>
+			<file>tests/Indicators.php</file>
+			<file>tests/Presenters.php</file>
+			<file>tests/Dial.php</file>
+			<file>tests/Gauge.php</file>
+			<file>tests/Refiners.php</file>
+			<file>tests/Reporters.php</file>
+			<file>tests/Samples.php</file>
+			<file>tests/Gauger.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>

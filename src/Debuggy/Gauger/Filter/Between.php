@@ -4,52 +4,137 @@
 namespace Debuggy\Gauger\Filter;
 
 
-use Debuggy\Gauger\Mark;
-use Debuggy\Gauger\Mark\Sequential as SequentialMark;
-use Debuggy\Gauger\Mark\Summary as SummaryMark;
+use Debuggy\Gauger\Filter;
+use Debuggy\Gauger\Stamp;
+
 
 
 /**
- * Implements filtering logic by ranges of gauges
+ * Allows to filter numerical values
  */
-class Between implements Sequential, Summary {
+class Between extends Filter {
 	/**
-	 * Setup minimum and maximum points. The range between them
-	 * will be pass the filter.
+	 * Initializes object by numerical range. If some arguments are null
+	 * it means the range doesn't have bounds on that side. Minimal and maximal
+	 * values are embraced into the range.
+	 * The third parameter means that the value shouldn't be in the range to pass the check.
+	 * The fourth parameter sets up whether the BCMath library to be used for comparing the values.
+	 * If the fourth argument it is null, it'll be figured out automatically whether the BCMath is available.
 	 *
-	 * @param int $min Minimum value
-	 * @param int $max Maximum value
+	 * @param mixed $min Minimal value
+	 * @param mixed $max Maximal value
+	 * @param bool $inversion Flag of inversion
+	 * @param bool $bcMath Whether to use libbcmath
 	 */
-	public function __construct ($min, $max = null) {
-		$this->_min = $min;
-		$this->_max = $max;
+	public function __construct ($min = null, $max = null, $inversion = false, $bcMath = false) {
+		$this->_inversion = $inversion;
+
+		if (is_null ($bcMath) && function_exists ('bccomp')) {
+			$bcMath = true;
+
+			$minScale = 0;
+			$maxScale = 0;
+
+			if ($pos = strpos ('.', $min) !== false)
+				$minScale = strlen ($min) - $pos;
+
+			if ($pos = strpos ('.', $max) !== false)
+				$maxScale = strlen ($max) - $pos;
+
+			$this->_bcMathScale = max ($minScale, $maxScale) + 1;
+		}
+
+		$this->_bcMath = $bcMath;
+
+		if (isset ($min)) {
+			if ($this->_bcMath)
+				$this->_min = (string) ($min);
+
+			else if (is_int ($min))
+				$this->_min = $min;
+
+			else
+				$this->_min = (float) ($min);
+		}
+
+		if (isset ($max)) {
+			if ($this->_bcMath)
+				$this->_max = (string) ($max);
+
+			else if (is_int ($max))
+				$this->_max = $max;
+
+			else
+				$this->_max = (float) ($max);
+		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function checkSequential (SequentialMark $mark) {
-		return $this->checkMark ($mark);
+
+	/** {@inheritdoc} */
+	public function checkStamp (Stamp $stamp) {
+		if (is_null ($stamp->value))
+			return false;
+
+		if (isset ($this->_min)) {
+			if ($this->_bcMath) {
+				if (bccomp ($this->_min, (string) ($stamp->value), $this->_bcMathScale) > 0)
+					return (bool) (false xor $this->_inversion);
+
+			} else if ($this->_min > $stamp->value)
+				return (bool) (false xor $this->_inversion);
+		}
+
+		if (isset ($this->_max)) {
+			if ($this->_bcMath) {
+				if (bccomp ((string) ($stamp->value), $this->_max, $this->_bcMathScale) > 0)
+					return (bool) (false xor $this->_inversion);
+
+			} else if ($this->_max < $stamp->value)
+				return (bool) (false xor $this->_inversion);
+		}
+
+		return (bool) (true xor $this->_inversion);
 	}
 
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function checkSummary (SummaryMark $mark) {
-		return $this->checkMark ($mark);
-	}
-
 
 	/**
-	 * Check that mark's gauge is greater than min and lesser than max
+	 * Minimal value
 	 *
-	 * @param Mark $mark Mark for checking
+	 * @var mixed
 	 */
-	public function checkMark (Mark $mark) {
-		return
-			(!isset ($this->_min) || $mark->gauge >= $this->_min)
-		&&
-			(!isset ($this->_max) || $mark->gauge <= $this->_max);
-	}
+	private $_min;
+
+
+	/**
+	 * Maximal value
+	 *
+	 * @var mixed
+	 */
+	private $_max;
+
+
+	/**
+	 * Whether the result should be inversed
+	 *
+	 * @var bool
+	 */
+	private $_inversion;
+
+
+	/**
+	 * Whether to use libbcmath for precise math
+	 *
+	 * @var bool
+	 */
+	private $_bcMath;
+
+
+	/**
+	 * Scale to use in bcmath functions
+	 *
+	 * @var int
+	 */
+	private $_bcMathScale = 0;
+
 }

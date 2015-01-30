@@ -1,0 +1,28 @@
+@startuml
+!ifndef refiner_pu
+!define refiner_pu
+
+
+!include styles.pu
+!include indicator.pu
+!include stamp.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		class "Refiner" as _Refiner {
+			- $_refiner : Refiner
+			+ __construct (Refiner $refiner)
+			+ getIndicators () : Indicator[]
+			+ getStamps () : Stamp[][]
+		}
+
+		_Refiner o-- _Refiner
+		_Refiner --> _Indicator
+		_Refiner --> Stamp
+	}
+}
+
+!endif
+@enduml

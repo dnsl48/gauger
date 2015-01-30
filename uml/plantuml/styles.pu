@@ -1,0 +1,14 @@
+@startuml
+!ifndef styles_pu
+!define styles_pu
+
+
+
+hide empty fields
+hide empty methods
+
+skinparam shadowing false
+
+
+!endif
+@enduml

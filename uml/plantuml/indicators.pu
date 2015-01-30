@@ -1,0 +1,73 @@
+@startuml
+!ifndef indicators_pu
+!define indicators_pu
+
+
+!include styles.pu
+!include indicator.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		namespace Indicator {
+			class Closure {
+				- $_indicator : \Closure
+				+ __construct (\Closure $indicator, \Debuggy\Gauger\Formatter $formatter = null)
+			}
+
+			Closure --|> .Gauger._Indicator
+
+
+			class Extra {
+				- $_key : mixed
+				- $_sum : null|\Closure
+				- $_sub : null|\Closure
+				- $_avg : null|\Closure
+				+ __construct (mixed $key = null, \Debuggy\Gauger\Formatter $formatter = null, \Closure $sum = null, \Closure $sub = null, \Closure $avg = null)
+				- _megre (mixed $former, mixed $latter) : mixed
+			}
+
+			Extra --|> .Gauger._Indicator
+
+
+			abstract class Memory
+
+			Memory --|> .Gauger._Indicator
+
+
+			class MemoryPeak
+
+			MemoryPeak --|> Memory
+
+
+			class MemoryUsage
+
+			MemoryUsage --|> Memory
+
+
+			class Microtime
+
+			Microtime --|> .Gauger._Indicator
+
+
+			class TotalDuration {
+				- $_timePoint : float
+				+ __construct  (float $time = null, \Debuggy\Gauger\Formatter $formatter = null)
+			}
+
+			TotalDuration --|> Microtime
+
+
+			class Preload {
+				- $_values : array
+				+ __construct (array $values, \Debuggy\Gauger\Formatter $formatter = null)
+			}
+
+			Preload --|> .Gauger._Indicator
+		}
+	}
+}
+
+!endif
+@enduml

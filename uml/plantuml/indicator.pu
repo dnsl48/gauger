@@ -1,0 +1,32 @@
+@startuml
+!ifndef indicator_pu
+!define indicator_pu
+
+
+!include styles.pu
+!include formatter.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		abstract class "Indicator" as _Indicator {
+			- $_formatter : Closure
+			- $_name : string
+			+ __construct (Formatter $formatter = null)
+			+ setName (string $name) : void
+			+ getName () : string
+			+ sum (mixed $former, mixed $latter) : mixed
+			+ sub (mixed $former, mixed $latter) : mixed
+			+ avg (array $values) : mixed
+			+ getFormatter () : Formatter
+			+ idle (mixed $extra = null) : void
+			+ {abstract} gauge (mixed $extra = null) : mixed
+		}
+
+		_Indicator o-- _Formatter
+	}
+}
+
+!endif
+@enduml

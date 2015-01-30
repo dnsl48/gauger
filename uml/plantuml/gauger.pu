@@ -1,0 +1,23 @@
+@startuml
+!ifndef gauger_pu
+!define gauger_pu
+
+
+!include styles.pu
+!include exception.pu
+!include sample.pu
+
+
+
+package Debuggy {
+	class Gauger {
+		- {static} $_samples : [string => Gauger\Sample] = []
+		+ {static} getSample (string $key, string|Gauger\Sample $sample = null, array $constructionData = []) : Gauger\Sample
+	}
+
+	Gauger ..> Gauger._Exception
+	Gauger --> Gauger._Sample
+}
+
+!endif
+@enduml

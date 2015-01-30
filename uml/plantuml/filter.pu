@@ -1,0 +1,23 @@
+@startuml
+!ifndef filter_pu
+!define filter_pu
+
+
+!include styles.pu
+!include stamp.pu
+
+
+
+package Debuggy {
+	namespace Gauger {
+		abstract class "Filter" as _Filter {
+			+ {abstract} checkStamp (Stamp $stamp) : bool
+			+ checuBunch (Stamp[] $stamps) : Stamp[]
+		}
+
+		_Filter ..> Stamp
+	}
+}
+
+!endif
+@enduml
