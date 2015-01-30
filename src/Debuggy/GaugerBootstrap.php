@@ -33,6 +33,7 @@ require_once __DIR__ . '/Gauger/Filter/Tail.php';
 
 require_once __DIR__ . '/Gauger/Formatter/Closure.php';
 require_once __DIR__ . '/Gauger/Formatter/Memory.php';
+require_once __DIR__ . '/Gauger/Formatter/Stash.php';
 require_once __DIR__ . '/Gauger/Formatter/Time.php';
 
 require_once __DIR__ . '/Gauger/Indicator/Closure.php';

@@ -17,17 +17,30 @@ class Closure extends Formatter {
 	/**
 	 * Initializes the object with the closure to be used as the formatter
 	 *
-	 * @param _Closure $closure Closure to be used as the formatter
+	 * @param _Closure $format Closure to be used as the formatter
+	 * @param _Closure $visible Closure to be used as the isVisible
 	 */
-	public function __construct (_Closure $closure) {
-		$this->_closure = $closure;
+	public function __construct (_Closure $format = null, _Closure $visible = null) {
+		$this->_format = $format;
+		$this->_visible = $visible;
 	}
 
 
 	/** {@inheritdoc} */
 	public function format ($value) {
-		$closure = $this->_closure;
-		return $closure ($value);
+		if ($this->_format)
+			return call_user_func ($this->_format, $value);
+
+		return parent::format ($value);
+	}
+
+
+	/** {@inheritdoc} */
+	public function isVisible ($value) {
+		if ($this->_visible)
+			return call_user_func ($this->_visible, $value);
+
+		return parent::isVisible ($value);
 	}
 
 
@@ -37,5 +50,13 @@ class Closure extends Formatter {
 	 *
 	 * @var _Closure
 	 */
-	private $_closure;
+	private $_format;
+
+
+	/**
+	 * Instance of a closure to be used as the isVisible
+	 *
+	 * @var _Closure
+	 */
+	private $_visible;
 }

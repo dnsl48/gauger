@@ -4,6 +4,7 @@
 use Debuggy\Gauger\Formatter;
 use Debuggy\Gauger\Formatter\Closure;
 use Debuggy\Gauger\Formatter\Memory;
+use Debuggy\Gauger\Formatter\Stash;
 use Debuggy\Gauger\Formatter\Time;
 
 
@@ -23,9 +24,25 @@ class Formatters extends PHPUnit_Framework_TestCase {
 
 	/** Tests Closure formatter */
 	public function testClosure () {
-		$formatter = new Closure (function ($v) {return number_format ($v, 2);});
+		$formatter = new Closure (function ($v) {return number_format ($v, 2);}, function ($v) {return $v !== 42;});
 
 		$this->assertSame ("2.00", $formatter->format (2));
+		$this->assertTrue ($formatter->isVisible (2));
+		$this->assertFalse ($formatter->isVisible (42));
+
+		$formatter2 = new Closure;
+		$formatter3 = new Formatter;
+
+		$this->assertSame ($formatter3->format (2), $formatter2->format (2));
+		$this->assertSame ($formatter3->isVisible (2), $formatter2->isVisible (2));
+	}
+
+
+	/** Tests Stash formatter */
+	public function testStash () {
+		$formatter = new Stash;
+
+		$this->assertFalse ($formatter->isVisible (42));
 	}
 
 

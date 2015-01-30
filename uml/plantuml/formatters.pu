@@ -12,8 +12,9 @@ package Debuggy {
 	namespace Gauger {
 		namespace Formatter {
 			class Closure {
-				- $_closure : \Closure
-				+ __construct (\Closure $closure)
+				- $_format : \Closure
+				- $_visible : \Closure
+				+ __construct (\Closure $format = null, \Closure $visible = null)
 			}
 
 			Closure --|> .Gauger._Formatter
@@ -55,6 +56,11 @@ package Debuggy {
 			}
 
 			Memory --|> .Gauger._Formatter
+
+
+			class Stash
+
+			Stash --|> .Gauger._Formatter
 
 
 			class Time {
