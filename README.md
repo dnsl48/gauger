@@ -31,7 +31,7 @@ Moreover, a visual representation of harvested data is quite important as well a
  3.2. [Composer](#composer)  
  3.3. [PSR-4, manual installation](#psr-4-manual-installation)  
  4. [Documentation](#documentation)  
- 4.1. [Comments in the source code](#comments in the source code)  
+ 4.1. [Comments in the source code](#comments-in-the-source-code)  
  4.2. [UML](#uml)  
  4.3. [This file](#this-file)  
  4.3.1 [Totals](#totals)  
