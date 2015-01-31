@@ -121,7 +121,7 @@ For more information about Composer visit its official site: <https://getcompose
 
 #### PSR-4, manual installation
 
-In this case you only need an autoloader compatible with the `PSR-4` standard.
+In this case you only need an autoloader compatible with `PSR-4` standard.
 The library's package name (root namespace) is `Debuggy` which is in the directory `src`.
 
 
@@ -141,7 +141,7 @@ The main goal of these is one could understood the behaviour and implications of
 
 #### UML
 
-All entities of the project are described with PlantUML. These files are in the `uml/plantuml` directory. 
+All entities of the project are described with PlantUML. These files are in the directory `uml/plantuml`. 
 PlantUML is an Open-Source UML generator. For more information visit its official site: <http://plantuml.com>
 
 
@@ -172,14 +172,14 @@ There are four built-in samples:
  * `Preload1` : Shows custom data as if it was harvested as stamps
 
 
-The `Gauger` is the static storage for samples, so that we can obtain them from every place of our code just calling its method `getSample`.
+`Gauger` is the static storage for samples, so that we can obtain them from every place of our code just calling its method `getSample`.
 The first argument is a user-defined unique key for the sample throughout an application, whereas the second is a sample's classname and has to be passed only once for each key.
 
 
 
 ##### Totals
 
-Let's take a look at the simple example of using the `Totals` sample:
+Let's take a look at the simple example of using `Totals` sample:
 
 ```php
 $totals = Debuggy\Gauger::getSample ('anykey', 'Totals');
@@ -203,7 +203,7 @@ On the right side we can see two indicators: `TotalDuration` and `MemoryPeak`.
 
 ##### Timer
 
-Another example shows the `Timer` in use:
+Another example shows `Timer` in use:
 
 ```php
 $timer = Debuggy\Gauger::getSample (null, 'Timer');
