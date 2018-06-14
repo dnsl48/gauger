@@ -1,10 +1,10 @@
 # Gauger
 
-#### [![Build Status](https://travis-ci.org/dnsl48/gauger.svg?branch=master)](https://travis-ci.org/dnsl48/Gauger)  [![Coverage Status](https://img.shields.io/coveralls/dnsl48/Gauger.svg)](https://coveralls.io/r/dnsl48/Gauger?branch=master) [![License](https://poser.pugx.org/debuggy/gauger/license.svg)](https://packagist.org/packages/debuggy/gauger)
+#### [![Build Status](https://travis-ci.org/dnsl48/gauger.svg?branch=master)](https://travis-ci.org/dnsl48/Gauger)  [![Coverage Status](https://img.shields.io/coveralls/dnsl48/Gauger.svg)](https://coveralls.io/r/dnsl48/Gauger?branch=master) [![MIT / Apache2 License](https://img.shields.io/badge/license-MIT%20/%20Apache2-blue.svg)](https://packagist.org/packages/debuggy/gauger)
 
 Supported versions of PHP: 5.3, 5.4, 5.5, 5.6 and hhvm
 
-License: `Apache License, Version 2.0`
+License: `MIT / Apache License, Version 2.0`
 
 
 
