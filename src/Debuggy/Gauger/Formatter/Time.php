@@ -32,8 +32,9 @@ class Time extends Formatter {
 		$result = '';
 
 		if ($time > 60 * 60 * 24) {
-			$result = (int) (($time / (60 * 60 * 24))).' ';
+			$result = (int) (($time / (60 * 60 * 24)));
 			$time -= $result * (60 * 60 * 24);
+			$result = $result.' ';
 		}
 
 		$format = '';
