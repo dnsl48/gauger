@@ -23,13 +23,17 @@ class Preload extends Indicator {
 		parent::__construct ($formatter);
 
 		$this->_values = $values;
+		$this->_pointer = 0;
 	}
 
 
 	/** {@inheritdoc} */
 	public function gauge ($extra = null) {
-		list ($key, $val) = each ($this->_values);
-		return $val;
+		if ($this->_pointer >= count($this->_values)) {
+			return null;
+		}
+
+		return $this->_values[$this->_pointer++];
 	}
 
 
@@ -39,11 +43,15 @@ class Preload extends Indicator {
 	}
 
 
-
 	/**
 	 * Preload of values
 	 *
 	 * @var array
 	 */
 	private $_values;
+
+	/**
+	 * Array pointer
+	 */
+	private $_pointer;
 }

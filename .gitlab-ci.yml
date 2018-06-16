@@ -1,0 +1,15 @@
+php56:
+  image: dnsl48/php5.6-cli-alpine-xdebug
+  script:
+    - cd /builds/dnsl48/gauger
+    - composer install
+    - ./vendor/bin/phpunit -v -c phpunit.xml --coverage-clover=coverage.xml
+    - bash <(curl -s https://codecov.io/bash) -t d1056429-033e-4b69-90d2-d26b4fc01f40
+
+php72:
+  image: dnsl48/php7.2-cli-alpine-xdebug
+  script:
+    - cd /builds/dnsl48/gauger
+    - composer install
+    - ./vendor/bin/phpunit -v -c phpunit.xml --coverage-clover=coverage.xml
+    - bash <(curl -s https://codecov.io/bash) -t d1056429-033e-4b69-90d2-d26b4fc01f40
