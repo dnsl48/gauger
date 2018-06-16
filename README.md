@@ -2,19 +2,18 @@
 
 #### [![Build Status](https://travis-ci.org/dnsl48/gauger.svg?branch=master)](https://travis-ci.org/dnsl48/Gauger)  [![Coverage Status](https://img.shields.io/coveralls/dnsl48/Gauger.svg)](https://coveralls.io/r/dnsl48/Gauger?branch=master) [![MIT / Apache2 License](https://img.shields.io/badge/license-MIT%20/%20Apache2-blue.svg)](https://packagist.org/packages/debuggy/gauger)
 
-Supported versions of PHP: 5.3, 5.4, 5.5, 5.6 and hhvm
+Supported PHP versions: 5.6, 7.0, 7.1, 7.2 and hhvm
 
 License: `MIT / Apache License, Version 2.0`
 
 
-
 #### What is Gauger?
-Gauger is a highly extensible and comprehensive tool for a handy profiling PHP scripts and applications.
-
+This is a highly extensible and comprehensive tool for profiling PHP scripts and applications with no Xdebug or PHPDBG involved, so that you may even use it on prod if necessary, e.g. to find out why your script works slower than expected in the particular environment. 
+Look at the [examples](#totals) and you'll see the main idea.
 
 
 #### Goals of the project
-The main goal of the project is to provide flexible and powerful abilities for profiling any data throughout an application. 
+The main goal of the project is to provide flexible and powerful abilities for profiling PHP applications. 
 Moreover, a visual representation of harvested data is quite important as well as the minimal amount of boilerplate.
 
 
