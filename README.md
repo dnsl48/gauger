@@ -3,6 +3,7 @@
 #### [![Build Status](https://travis-ci.org/dnsl48/gauger.svg?branch=master)](https://travis-ci.org/dnsl48/gauger)  [![Coverage Status](https://img.shields.io/coveralls/dnsl48/gauger.svg)](https://coveralls.io/r/dnsl48/gauger?branch=master) [![MIT / Apache2 License](https://img.shields.io/badge/license-MIT%20/%20Apache2-blue.svg)](https://packagist.org/packages/debuggy/gauger)
 
 Supported PHP versions: 5.6, 7.0, 7.1, 7.2 and hhvm
+It still should work under 5.3, 5.4 and 5.5, however those versions are not tested anymore.
 
 License: `MIT / Apache License, Version 2.0`
 
@@ -110,7 +111,7 @@ To install the library with Composer put the next code into your composer.json:
 ```json
 {
 	"require-dev": {
-		"debuggy/gauger": "1.0"
+		"debuggy/gauger": "1.1"
 	}
 }
 ```
